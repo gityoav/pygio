@@ -1621,7 +1621,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id35"><span class="problematic" id="id36">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1697,7 +1699,9 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id37"><span class="problematic" id="id38">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1773,7 +1777,9 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id39"><span class="problematic" id="id40">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1849,7 +1855,9 @@ In fact, having removed half the data points, rolling(10) will return 99.9% nans
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id41"><span class="problematic" id="id42">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1927,7 +1935,9 @@ In fact, having removed half the data points, rolling(10) will return 99.9% nans
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,t3,vec,i,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id43"><span class="problematic" id="id44">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2003,7 +2013,7 @@ In fact, having removed half the data points, rolling(10) will return 99.9% nans
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id35"><span class="problematic" id="id36">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id45"><span class="problematic" id="id46">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2081,7 +2091,7 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id37"><span class="problematic" id="id38">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id47"><span class="problematic" id="id48">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2159,7 +2169,7 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id39"><span class="problematic" id="id40">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id49"><span class="problematic" id="id50">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2266,6 +2276,10 @@ n : integer</p>
 <dl class="simple">
 <dt>q<span class="classifier">float or list of floats in [0,1]</span></dt><dd><p>quantile(s).</p>
 </dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id51"><span class="problematic" id="id52">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -2294,7 +2308,7 @@ n : integer</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id41"><span class="problematic" id="id42">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id53"><span class="problematic" id="id54">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2366,7 +2380,7 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id43"><span class="problematic" id="id44">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id55"><span class="problematic" id="id56">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2490,7 +2504,7 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id45"><span class="problematic" id="id46">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id57"><span class="problematic" id="id58">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2614,7 +2628,7 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id47"><span class="problematic" id="id48">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id59"><span class="problematic" id="id60">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2727,7 +2741,7 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id49"><span class="problematic" id="id50">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id61"><span class="problematic" id="id62">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -2921,7 +2935,7 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id51"><span class="problematic" id="id52">**</span></a>func_(history)) to work</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id63"><span class="problematic" id="id64">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
@@ -3010,8 +3024,8 @@ n : int/fraction</p>
 </div>
 <div class="section" id="functions-exposing-their-state">
 <h2>functions exposing their state<a class="headerlink" href="#functions-exposing-their-state" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id53">
-<h3>simple functions<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id65">
+<h3>simple functions<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.diff_">
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">diff_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.diff_" title="Permalink to this definition">¶</a></dt>
@@ -3079,8 +3093,8 @@ See ts_skew for full details</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="id54">
-<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_max_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
+<dt id="id66">
+<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_max_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id66" title="Permalink to this definition">¶</a></dt>
 <dd><p>ts_max(a) is equivalent to pandas a.min()</p>
 </dd></dl>
 
@@ -3092,8 +3106,8 @@ supports state manegement</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id55">
-<h3>expanding window functions<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id67">
+<h3>expanding window functions<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_mean_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_mean_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_mean_" title="Permalink to this definition">¶</a></dt>
@@ -3160,8 +3174,8 @@ For full documentation, look at cumprod.__doc__</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id56">
-<h3>rolling window functions<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id68">
+<h3>rolling window functions<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.rolling_mean_">
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">rolling_mean_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.rolling_mean_" title="Permalink to this definition">¶</a></dt>
@@ -3233,8 +3247,8 @@ For full documentation, look at rolling_quantile.__doc__</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id57">
-<h3>exponentially weighted moving functions<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id69">
+<h3>exponentially weighted moving functions<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._ewm.ewma_">
 <code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewma_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewma_" title="Permalink to this definition">¶</a></dt>
@@ -3325,7 +3339,7 @@ Or ‘nona’: removes all nans</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">df_fillna</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">9.</span><span class="p">,</span>  <span class="mf">9.</span><span class="p">,</span> <span class="mf">25.</span><span class="p">]))</span>
 </pre></div>
 </div>
-<p>df_fillna does not maintain state of latest ‘prev’ value: use <a href="#id58"><span class="problematic" id="id59">ffill_</span></a> for that.</p>
+<p>df_fillna does not maintain state of latest ‘prev’ value: use <a href="#id70"><span class="problematic" id="id71">ffill_</span></a> for that.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>interpolation methods</p>
@@ -3714,10 +3728,10 @@ presync allows easy presynching of all paramters of a function.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#functions-exposing-their-state">functions exposing their state</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id53">simple functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id55">expanding window functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id56">rolling window functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id57">exponentially weighted moving functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">simple functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">expanding window functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">rolling window functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id69">exponentially weighted moving functions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-handling">Index handling</a><ul>

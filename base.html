@@ -1137,11 +1137,6 @@ If you want the data aggregated in any way, then supply an aggregating function(
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">res</span><span class="o">.</span><span class="n">find_data</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">5</span>  <span class="c1"># although calculated before, we recalculate as its expiry is in the future</span>
 </pre></div>
 </div>
-<p>function = lambda a, b: dict(sum = a+b, prod = a*b); function.output = [‘sum’, ‘prod’]
-self = perdictable(function)
-self(a = 1, b = 2)
-inputs = dict(a = dictable(a = [1,2,3]), b = 2); expiry = None
-self(a = dictable(a = [1,2,3]), b = 2)</p>
 </dd></dl>
 
 </div>
@@ -2763,12 +2758,59 @@ calendar: uses the business-days distance between any two dates</p>
 </div>
 <div class="section" id="tree-manipulation">
 <h2>tree manipulation<a class="headerlink" href="#tree-manipulation" title="Permalink to this headline">¶</a></h2>
-<p>Trees are dicts of dicts. just like an item in a dict is (key, value), tree items are just longer tuples: (key1, key2, key3, value)</p>
-<div class="section" id="tree-to-items">
-<h3>tree_to_items<a class="headerlink" href="#tree-to-items" title="Permalink to this headline">¶</a></h3>
+<p>Trees are dicts of dicts. just like an item in a dict is (key, value), tree items are just longer tuples: (key1, key2, key3, value)
+We deliberately avoid creating a tree class so that the functionality is available on ordinary tree-like structures.</p>
+<div class="section" id="tree-keys">
+<h3>tree_keys<a class="headerlink" href="#tree-keys" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
-<dt id="pyg.base._dict.tree_to_items">
-<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_to_items</code><span class="sig-paren">(</span><em class="sig-param">tree</em>, <em class="sig-param">types=(&lt;class 'dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dict.Dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dictattr.dictattr'&gt;)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_to_items" title="Permalink to this definition">¶</a></dt>
+<dt id="pyg.base._dict.tree_keys">
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the keys (branches) of a tree as a list of of tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">f</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_keys</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>tree : tree (dict of dicts)
+types : types of dicts, optional</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tree-values">
+<h3>tree_values<a class="headerlink" href="#tree-values" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.base._dict.tree_values">
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the values (leaf) of a tree (a collection of tuples)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">c</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">f</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_values</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>tree : tree (dict of dicts)
+types : types of dicts, optional</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tree-items">
+<h3>tree_items<a class="headerlink" href="#tree-items" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.base._dict.tree_items">
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_items</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>An extension of dict.items(), returning a list of tuples but of varying length, each a branch of a tree</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2802,30 +2844,30 @@ calendar: uses the business-days distance between any two dates</p>
 <span class="go">                        ))</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="n">tree_to_items</span><span class="p">(</span><span class="n">school</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="n">tree_items</span><span class="p">(</span><span class="n">school</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> 
 </pre></div>
 </div>
-<dl class="simple">
-<dt>[(‘pupils’, ‘id1’, ‘name’, ‘james’),</dt><dd><p>(‘pupils’, ‘id1’, ‘surname’, ‘maxwell’),
-(‘pupils’, ‘id1’, ‘gender’, ‘m’),
-(‘pupils’, ‘id2’, ‘name’, ‘adam’),
-(‘pupils’, ‘id2’, ‘surname’, ‘smith’),
-(‘pupils’, ‘id2’, ‘gender’, ‘m’),
-(‘pupils’, ‘id3’, ‘name’, ‘michell’),
-(‘pupils’, ‘id3’, ‘surname’, ‘obama’),
-(‘pupils’, ‘id3’, ‘gender’, ‘f’),
-(‘teachers’, ‘math’, ‘name’, ‘albert’),
-(‘teachers’, ‘math’, ‘surname’, ‘einstein’),
-(‘teachers’, ‘math’, ‘grade’, 3),
-(‘teachers’, ‘english’, ‘name’, ‘william’),
-(‘teachers’, ‘english’, ‘surname’, ‘shakespeare’),
-(‘teachers’, ‘english’, ‘grade’, 3),
-(‘teachers’, ‘physics’, ‘name’, ‘richard’),
-(‘teachers’, ‘physics’, ‘surname’, ‘feyman’),
-(‘teachers’, ‘physics’, ‘grade’, 4)]</p>
-</dd>
-</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;james&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;maxwell&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;adam&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;smith&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id3&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;michell&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id3&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;obama&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;pupils&#39;</span><span class="p">,</span> <span class="s1">&#39;id3&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;albert&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;einstein&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;math&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;william&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;shakespeare&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;physics&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;richard&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;physics&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">,</span> <span class="s1">&#39;feyman&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="p">(</span><span class="s1">&#39;teachers&#39;</span><span class="p">,</span> <span class="s1">&#39;physics&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+</pre></div>
+</div>
 <p>#To reverse this, we call:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">items_to_tree</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="n">school</span>
 </pre></div>
@@ -2833,11 +2875,184 @@ calendar: uses the business-days distance between any two dates</p>
 </dd></dl>
 
 </div>
+<div class="section" id="tree-update">
+<h3>tree_update<a class="headerlink" href="#tree-update" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.base._dict.tree_update">
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_update</code><span class="sig-paren">(</span><em class="sig-param">tree</em>, <em class="sig-param">update</em>, <em class="sig-param">types=(&lt;class 'dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dict.Dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dictattr.dictattr'&gt;)</em>, <em class="sig-param">ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>equivalent to dict.update() except: not in-place and also updates further down the tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cambridge</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">trinity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stjohns</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">christ</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span> 
+<span class="go">            oxford = dict(trinity = 1, jesus = 2, magdalene = 3))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">oxford</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">wolfson</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">magdalene</span> <span class="o">=</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tree_repr</span><span class="p">(</span><span class="n">tree_update</span><span class="p">(</span><span class="n">ranking</span><span class="p">,</span> <span class="n">new_ranking</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cambridge</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">{</span><span class="s1">&#39;trinity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;stjohns&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;christ&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oxford</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">{</span><span class="s1">&#39;trinity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;jesus&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;magdalene&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;wolfson&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note how values for magdalene in Oxford were overwritten even though they are further down the tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>using ignore</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">update</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span> <span class="o">==</span> <span class="n">update</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">tree</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>tree<span class="classifier">tree</span></dt><dd><p>existing tree.</p>
+</dd>
+<dt>update<span class="classifier">tree</span></dt><dd><p>new information.</p>
+</dd>
+<dt>types<span class="classifier">types, optional</span></dt><dd><p>see tree_items. The default is (dict, Dict, dictattr).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>tree</dt><dd><p>updated tree.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="tree-setitem">
+<h3>tree_setitem<a class="headerlink" href="#tree-setitem" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.base._dict.tree_setitem">
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_setitem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tree</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">ignore</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_setitem" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets an item of a tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>tree : tree (dicts of dict)
+key : a dot-separated string or a tuple of values</p>
+<blockquote>
+<div><p>the branch to hang value on</p>
+</div></blockquote>
+<dl class="simple">
+<dt>value<span class="classifier">object</span></dt><dd><p>the leaf at the end of the branch</p>
+</dd>
+<dt>ignore<span class="classifier">None or list, optional</span></dt><dd><p>what values of leaf will be ignored and not overwrite existing data. The default is None.</p>
+</dd>
+<dt>types<span class="classifier">types, optional</span></dt><dd><p>As we go down the tree, when do we stop and say: what we have is a leaf already?</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s1">&#39;b.c&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>types</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mycell</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="o">*</span><span class="mi">3</span><span class="p">))))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># We are missing y....</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s1">&#39;mycell.a.x.y&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span><span class="n">cell</span><span class="p">))</span> <span class="c1">## drill into cell</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree</span><span class="p">[</span><span class="s1">&#39;mycell&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree_setitem</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="s1">&#39;mycell.a.x.y&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">## stop when you hit cell</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree</span><span class="p">[</span><span class="s1">&#39;mycell&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>None.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tree-repr">
+<h3>tree_repr<a class="headerlink" href="#tree-repr" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.base._tree_repr.tree_repr">
+<code class="sig-prename descclassname">pyg.base._tree_repr.</code><code class="sig-name descname">tree_repr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._tree_repr.tree_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>a cleaner representation of a tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">school</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pupils</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">id1</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;james&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;maxwell&#39;</span><span class="p">,</span> <span class="n">gender</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">id2</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;smith&#39;</span><span class="p">,</span> <span class="n">gender</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">id3</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;michell&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;obama&#39;</span><span class="p">,</span> <span class="n">gender</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                  <span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">teachers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">math</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;albert&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;einstein&#39;</span><span class="p">,</span> <span class="n">grade</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="n">english</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;william&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;shakespeare&#39;</span><span class="p">,</span> <span class="n">grade</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="n">physics</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;richard&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;feyman&#39;</span><span class="p">,</span> <span class="n">grade</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tree_repr</span><span class="p">(</span><span class="n">school</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pupils</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">id1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;james&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;maxwell&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">id2</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;smith&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">id3</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;michell&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;obama&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">teachers</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">math</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;albert&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;einstein&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">english</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;william&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;shakespeare&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">physics</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;richard&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;feyman&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>value : a tree</p>
+<dl class="simple">
+<dt>offset<span class="classifier">int, optional</span></dt><dd><p>offset from the left for printing. The default is 0.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>string</dt><dd><p>a tree-like string representation of a dict-of-dicts.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="items-to-tree">
 <h3>items_to_tree<a class="headerlink" href="#items-to-tree" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._dict.items_to_tree">
-<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">items_to_tree</code><span class="sig-paren">(</span><em class="sig-param">items</em>, <em class="sig-param">tree=None</em>, <em class="sig-param">raise_if_duplicate=True</em>, <em class="sig-param">ignore=None</em>, <em class="sig-param">types=(&lt;class 'dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dict.Dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dictattr.dictattr'&gt;)</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.items_to_tree" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">items_to_tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span></em>, <em class="sig-param"><span class="n">tree</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">raise_if_duplicate</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ignore</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.items_to_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>converts <strong>items</strong> to branches of a tree. 
 If an original <strong>tree</strong> is provided, hang the additional branches on the existing tree
 If <strong>ignore</strong> is provided as a list of values, will not overwrite branches with last value (the leaf) in these values</p>
@@ -2909,67 +3124,6 @@ If <strong>ignore</strong> is provided as a list of values, will not overwrite b
 </dd></dl>
 
 </div>
-<div class="section" id="tree-update">
-<h3>tree_update<a class="headerlink" href="#tree-update" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt id="pyg.base._dict.tree_update">
-<code class="sig-prename descclassname">pyg.base._dict.</code><code class="sig-name descname">tree_update</code><span class="sig-paren">(</span><em class="sig-param">tree</em>, <em class="sig-param">update</em>, <em class="sig-param">types=(&lt;class 'dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dict.Dict'&gt;</em>, <em class="sig-param">&lt;class 'pyg.base._dictattr.dictattr'&gt;)</em>, <em class="sig-param">ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dict.tree_update" title="Permalink to this definition">¶</a></dt>
-<dd><p>equivalent to dict.update() except: not in-place and also updates further down the tree</p>
-<dl class="field-list simple">
-<dt class="field-odd">Example</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cambridge</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">trinity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stjohns</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">christ</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span> 
-<span class="go">            oxford = dict(trinity = 1, jesus = 2, magdalene = 3))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new_ranking</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">oxford</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">wolfson</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">magdalene</span> <span class="o">=</span> <span class="mi">4</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tree_repr</span><span class="p">(</span><span class="n">tree_update</span><span class="p">(</span><span class="n">ranking</span><span class="p">,</span> <span class="n">new_ranking</span><span class="p">)))</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>cambridge:</dt><dd><p>{‘trinity’: 1, ‘stjohns’: 2, ‘christ’: 3}</p>
-</dd>
-<dt>oxford:</dt><dd><p>{‘trinity’: 1, ‘jesus’: 2, ‘magdalene’: 4, ‘wolfson’: 3}</p>
-</dd>
-</dl>
-<p>Note how values for magdalene in Oxford were overwritten even though they are further down the tree</p>
-<dl class="field-list simple">
-<dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>using ignore</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">update</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span> <span class="o">==</span> <span class="n">update</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tree_update</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">tree</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<dl class="simple">
-<dt>tree<span class="classifier">tree</span></dt><dd><p>existing tree.</p>
-</dd>
-<dt>update<span class="classifier">tree</span></dt><dd><p>new information.</p>
-</dd>
-<dt>types<span class="classifier">types, optional</span></dt><dd><p>see tree_to_items. The default is (dict, Dict, dictattr).</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<dl class="simple">
-<dt>tree</dt><dd><p>updated tree.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
 <div class="section" id="tree-to-table">
 <h3>tree_to_table<a class="headerlink" href="#tree-to-table" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
@@ -3017,63 +3171,6 @@ If <strong>ignore</strong> is provided as a list of values, will not overwrite b
 <dd class="field-odd"><p></p></dd>
 </dl>
 <p>list of dicts</p>
-</dd></dl>
-
-</div>
-<div class="section" id="tree-repr">
-<h3>tree_repr<a class="headerlink" href="#tree-repr" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt id="pyg.base._tree_repr.tree_repr">
-<code class="sig-prename descclassname">pyg.base._tree_repr.</code><code class="sig-name descname">tree_repr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._tree_repr.tree_repr" title="Permalink to this definition">¶</a></dt>
-<dd><p>a cleaner representation of a tree</p>
-<dl class="field-list simple">
-<dt class="field-odd">Example</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">school</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pupils</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">id1</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;james&#39;</span><span class="p">,</span> <span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;maxwell&#39;</span><span class="p">,</span> <span class="n">gender</span> <span class="o">=</span> <span class="s1">&#39;m&#39;</span><span class="p">),</span>
-<span class="go">                  id2 = dict(name = &#39;adam&#39;, surname = &#39;smith&#39;, gender = &#39;m&#39;),</span>
-<span class="go">                  id3 = dict(name = &#39;michell&#39;, surname = &#39;obama&#39;, gender = &#39;f&#39;),</span>
-<span class="go">                  ),</span>
-<span class="go">    teachers = dict(math = dict(name = &#39;albert&#39;, surname = &#39;einstein&#39;, grade = 3),</span>
-<span class="go">                    english = dict(name = &#39;william&#39;, surname = &#39;shakespeare&#39;, grade = 3),</span>
-<span class="go">                    physics = dict(name = &#39;richard&#39;, surname = &#39;feyman&#39;, grade = 4)</span>
-<span class="go">                    ))</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tree_repr</span><span class="p">(</span><span class="n">school</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="go">pupils:</span>
-<span class="go">    id1:</span>
-<span class="go">        {&#39;name&#39;: &#39;james&#39;, &#39;surname&#39;: &#39;maxwell&#39;, &#39;gender&#39;: &#39;m&#39;}</span>
-<span class="go">    id2:</span>
-<span class="go">        {&#39;name&#39;: &#39;adam&#39;, &#39;surname&#39;: &#39;smith&#39;, &#39;gender&#39;: &#39;m&#39;}</span>
-<span class="go">    id3:</span>
-<span class="go">        {&#39;name&#39;: &#39;michell&#39;, &#39;surname&#39;: &#39;obama&#39;, &#39;gender&#39;: &#39;f&#39;}</span>
-<span class="go">teachers:</span>
-<span class="go">    math:</span>
-<span class="go">        {&#39;name&#39;: &#39;albert&#39;, &#39;surname&#39;: &#39;einstein&#39;, &#39;grade&#39;: 3}</span>
-<span class="go">    english:</span>
-<span class="go">        {&#39;name&#39;: &#39;william&#39;, &#39;surname&#39;: &#39;shakespeare&#39;, &#39;grade&#39;: 3}</span>
-<span class="go">    physics:</span>
-<span class="go">        {&#39;name&#39;: &#39;richard&#39;, &#39;surname&#39;: &#39;feyman&#39;, &#39;grade&#39;: 4}</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p>value : a tree</p>
-<dl class="simple">
-<dt>offset<span class="classifier">int, optional</span></dt><dd><p>offset from the left for printing. The default is 0.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<dl class="simple">
-<dt>TYPE</dt><dd><p>DESCRIPTION.</p>
-</dd>
-</dl>
 </dd></dl>
 
 </div>
@@ -4117,11 +4214,14 @@ args : tuple</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tree-manipulation">tree manipulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#tree-to-items">tree_to_items</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#items-to-tree">items_to_tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tree-keys">tree_keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tree-values">tree_values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tree-items">tree_items</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tree-update">tree_update</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tree-to-table">tree_to_table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tree-setitem">tree_setitem</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tree-repr">tree_repr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#items-to-tree">items_to_tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tree-to-table">tree_to_table</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#list-functions">list functions</a><ul>
