@@ -73,6 +73,20 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">diff</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>equivalent to a.diff(n) in pandas if there are no nans. If there are, we SKIP nans rather than propagate them.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array/timeseries</span></dt><dd><p>array/timeseries</p>
+</dd>
+<dt>n: int, optional, default = 1</dt><dd><p>window size</p>
+</dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id1"><span class="problematic" id="id2">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>: matching pandas no nan’s</p>
 </dd>
@@ -109,6 +123,10 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
 </dd>
 <dt>n: int</dt><dd><p>size of rolling window</p>
+</dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id3"><span class="problematic" id="id4">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -169,6 +187,10 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
 </dd>
 <dt>n: int</dt><dd><p>size of rolling window</p>
+</dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id5"><span class="problematic" id="id6">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -238,19 +260,30 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <li><p>supports numpy arrays</p></li>
 <li><p>handles nan</p></li>
 <li><p>supports state management</p></li>
-<li><p>pandas is actually faster on count</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-</pre></div>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id7"><span class="problematic" id="id8">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>pandas matching</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -285,17 +318,29 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <li><p>supports state management</p></li>
 <li><p>pandas is actually faster on count</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-</pre></div>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id9"><span class="problematic" id="id10">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>pandas matching</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_mean</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_mean</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -325,6 +370,20 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <dt id="pyg.timeseries._ts.ts_rms">
 <code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_rms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ts.ts_rms" title="Permalink to this definition">¶</a></dt>
 <dd><p>ts_rms(a) is equivalent to (a**2).mean()**0.5</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id11"><span class="problematic" id="id12">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
 <ul class="simple">
 <li><p>supports numpy arrays</p></li>
 <li><p>handles nan</p></li>
@@ -419,17 +478,29 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <li><p>faster than pandas</p></li>
 <li><p>supports state management</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-</pre></div>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id13"><span class="problematic" id="id14">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>pandas matching</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ts_skew</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">skew</span><span class="p">())</span><span class="o">&lt;</span><span class="mf">1e-13</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ts_skew</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">skew</span><span class="p">())</span><span class="o">&lt;</span><span class="mf">1e-13</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -576,6 +647,20 @@ new : float, optional</p>
 <dd><p>returns a forward filled array, up to n values forward. 
 supports state manegement which is needed if we want only nth</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array/timeseries</span></dt><dd><p>array/timeseries</p>
+</dd>
+<dt>n: int, optional, default = 1</dt><dd><p>window size</p>
+</dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id15"><span class="problematic" id="id16">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
@@ -671,7 +756,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,data:</dt><dd><p>state parameters to instantiate the calculation. t0 = total points so far, t2 = total(a) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id17"><span class="problematic" id="id18">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -754,7 +841,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0 = total points so far, t2 = total(x^2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id19"><span class="problematic" id="id20">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -839,7 +928,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id21"><span class="problematic" id="id22">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -924,7 +1015,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,data:</dt><dd><p>state parameters to instantiate the calculation. t0 = total points so far, t2 = total(a) so far</p>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id23"><span class="problematic" id="id24">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1009,7 +1102,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,t2,t3,data:</dt><dd><p>state parameters to instantiate the calculation. t0,t1,t2= total(points),total(a),total(a**2),total(a**3) so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id25"><span class="problematic" id="id26">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1062,7 +1157,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>m,data:</dt><dd><p>state parameters to instantiate the calculation. m = min so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id27"><span class="problematic" id="id28">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1147,7 +1244,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>m,data:</dt><dd><p>state parameters to instantiate the calculation. m = max so far</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id29"><span class="problematic" id="id30">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1290,6 +1389,16 @@ supports state manegement which is needed if we want only nth</p>
 - works on mumpy arrays too
 - skips nan, no ffill</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
@@ -1333,7 +1442,9 @@ supports state manegement which is needed if we want only nth</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>t0,t1,data:</dt><dd><p>state parameters to instantiate the calculation. t0 = total points so far, t2 = total(a) so far</p>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id31"><span class="problematic" id="id32">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1403,7 +1514,86 @@ supports state manegement which is needed if we want only nth</p>
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.cumprod">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">cumprod</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.cumprod" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>equivalent to pandas np.exp(np.log(a).expanding().sum()).</p>
+<ul class="simple">
+<li><p>works with np.arrays</p></li>
+<li><p>handles nan without forward filling.</p></li>
+<li><p>supports state parameters</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id33"><span class="problematic" id="id34">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>agreement with pandas</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">panda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">expanding</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">());</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="o">-</span><span class="n">panda</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>nan handling</p>
+</dd>
+</dl>
+<p>Unlike pandas, timeseries does not forward fill the nans.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">99</span><span class="p">,</span> <span class="mi">2020</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&lt;</span><span class="mf">0.975</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">panda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">expanding</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">());</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">panda</span><span class="p">,</span><span class="n">ts</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">24</span>  <span class="mf">1.037161</span>  <span class="mf">1.037161</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">25</span>  <span class="mf">1.050378</span>  <span class="mf">1.050378</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">26</span>  <span class="mf">1.158734</span>  <span class="mf">1.158734</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">27</span>  <span class="mf">1.158734</span>       <span class="n">NaN</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">28</span>  <span class="mf">1.219402</span>  <span class="mf">1.219402</span>
+<span class="gp">&gt;&gt;&gt; </span>             <span class="o">...</span>       <span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">28</span>  <span class="mf">4.032919</span>  <span class="mf">4.032919</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">29</span>  <span class="mf">4.032919</span>       <span class="n">NaN</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">30</span>  <span class="mf">4.180120</span>  <span class="mf">4.180120</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2019</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span>  <span class="mf">4.180120</span>       <span class="n">NaN</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>  <span class="mf">4.244261</span>  <span class="mf">4.244261</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>state management</p>
+</dd>
+</dl>
+<p>One can split the calculation and run old and new data separately.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">50</span><span class="p">:]</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old_ts</span> <span class="o">=</span> <span class="n">cumprod_</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_ts</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="o">**</span><span class="n">old_ts</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_ts</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">50</span><span class="p">:])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>dict/list inputs</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">cumprod</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">cumprod</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">cumprod</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </div>
 </div>
@@ -1813,7 +2003,9 @@ In fact, having removed half the data points, rolling(10) will return 99.9% nans
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>vec,data:</dt><dd><p>state parameters to instantiate the calculation. vec = recent history</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id35"><span class="problematic" id="id36">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1889,7 +2081,9 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>vec,data:</dt><dd><p>state parameters to instantiate the calculation. vec = recent history</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id37"><span class="problematic" id="id38">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1965,7 +2159,9 @@ In fact, having removed half the data points, rolling(10) will return 99% of nan
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
-<dt>vec,data:</dt><dd><p>state parameters to instantiate the calculation. vec = recent history</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id39"><span class="problematic" id="id40">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2088,6 +2284,22 @@ n : integer</p>
 - works on mumpy arrays too
 - skips nan, no ffill</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>a<span class="classifier">array, pd.Series, pd.DataFrame or list/dict of these</span></dt><dd><p>timeseries</p>
+</dd>
+<dt>n: int</dt><dd><p>window size</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
+</dd>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id41"><span class="problematic" id="id42">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
@@ -2154,7 +2366,9 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>state: dict, optional</dt><dd><p>state parameters and are used to instantiate what the current average is based on history.</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id43"><span class="problematic" id="id44">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2276,7 +2490,9 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>state: dict, optional</dt><dd><p>state parameters and are used to instantiate what the current average is based on history.</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id45"><span class="problematic" id="id46">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2398,7 +2614,9 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>state: dict, optional</dt><dd><p>state parameters and are used to instantiate what the current average is based on history.</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id47"><span class="problematic" id="id48">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2509,7 +2727,9 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>state: dict, optional</dt><dd><p>state parameters and are used to instantiate what the current average is based on history.</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id49"><span class="problematic" id="id50">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2701,7 +2921,9 @@ n : int/fraction</p>
 </dd>
 </dl>
 </dd>
-<dt>state: dict, optional</dt><dd><p>state parameters and are used to instantiate what the current average is based on history.</p>
+<dt>data: None.</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id51"><span class="problematic" id="id52">**</span></a>func_(history)) to work</p>
+</dd>
+<dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2788,17 +3010,20 @@ n : int/fraction</p>
 </div>
 <div class="section" id="functions-exposing-their-state">
 <h2>functions exposing their state<a class="headerlink" href="#functions-exposing-their-state" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>simple functions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id53">
+<h3>simple functions<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.diff_">
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">diff_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.diff_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>returns a forward filled array, up to n values forward. 
+Equivalent to diff(a,n) but returns the full state. See diff for full details</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.shift_">
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">shift_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.shift_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Equivalent to shift(a,n) but returns the full state. See shift for full details</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.ratio_">
@@ -2854,8 +3079,8 @@ See ts_skew for full details</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="id2">
-<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_max_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dt id="id54">
+<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_max_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
 <dd><p>ts_max(a) is equivalent to pandas a.min()</p>
 </dd></dl>
 
@@ -2867,40 +3092,40 @@ supports state manegement</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id3">
-<h3>expanding window functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id55">
+<h3>expanding window functions<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_mean_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_mean_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_mean_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_mean(a) but returns also the state variables t0…t1. 
+<dd><p>Equivalent to expanding_mean(a) but returns also the state variables. 
 For full documentation, look at expanding_mean.__doc__</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_rms_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_rms_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_rms_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_rms(a) but returns also the state variables t0…t2. 
+<dd><p>Equivalent to expanding_rms(a) but returns also the state variables.
 For full documentation, look at expanding_rms.__doc__</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_std_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_std_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_std_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_std(a) but returns also the state variables t0…t2. 
+<dd><p>Equivalent to expanding_mean(a) but returns also the state variables. 
 For full documentation, look at expanding_std.__doc__</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_sum_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_sum_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_sum_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_sum(a) but returns also the state variables t0…t1. 
+<dd><p>Equivalent to expanding_sum(a) but returns also the state variables.
 For full documentation, look at expanding_sum.__doc__</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.expanding_skew_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">expanding_skew_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.expanding_skew_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_kew(a) but returns also the state variables t0…t3. 
+<dd><p>Equivalent to expanding_mean(a) but returns also the state variables. 
 For full documentation, look at expanding_skew.__doc__</p>
 </dd></dl>
 
@@ -2923,18 +3148,20 @@ m: the current maximum</p>
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.cumsum_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">cumsum_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.cumsum_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equivalent to expanding_sum(a) but returns also the state variables t0…t1. 
+<dd><p>Equivalent to expanding_sum(a) but returns also the state variables.
 For full documentation, look at expanding_sum.__doc__</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="pyg.timeseries._expanding.cumprod_">
 <code class="sig-prename descclassname">pyg.timeseries._expanding.</code><code class="sig-name descname">cumprod_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._expanding.cumprod_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Equivalent to cumprod(a) but returns also the state variable. 
+For full documentation, look at cumprod.__doc__</p>
+</dd></dl>
 
 </div>
-<div class="section" id="id4">
-<h3>rolling window functions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id56">
+<h3>rolling window functions<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._rolling.rolling_mean_">
 <code class="sig-prename descclassname">pyg.timeseries._rolling.</code><code class="sig-name descname">rolling_mean_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._rolling.rolling_mean_" title="Permalink to this definition">¶</a></dt>
@@ -3006,8 +3233,8 @@ For full documentation, look at rolling_quantile.__doc__</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id5">
-<h3>exponentially weighted moving functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id57">
+<h3>exponentially weighted moving functions<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._ewm.ewma_">
 <code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewma_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewma_" title="Permalink to this definition">¶</a></dt>
@@ -3098,7 +3325,7 @@ Or ‘nona’: removes all nans</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">df_fillna</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;ffill&#39;</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">9.</span><span class="p">,</span>  <span class="mf">9.</span><span class="p">,</span> <span class="mf">25.</span><span class="p">]))</span>
 </pre></div>
 </div>
-<p>df_fillna does not maintain state of latest ‘prev’ value: use <a href="#id6"><span class="problematic" id="id7">ffill_</span></a> for that.</p>
+<p>df_fillna does not maintain state of latest ‘prev’ value: use <a href="#id58"><span class="problematic" id="id59">ffill_</span></a> for that.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>interpolation methods</p>
@@ -3487,10 +3714,10 @@ presync allows easy presynching of all paramters of a function.</p>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#functions-exposing-their-state">functions exposing their state</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">simple functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">expanding window functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">rolling window functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">exponentially weighted moving functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">simple functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">expanding window functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">rolling window functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">exponentially weighted moving functions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#index-handling">Index handling</a><ul>
