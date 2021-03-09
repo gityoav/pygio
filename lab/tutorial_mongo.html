@@ -741,9 +741,10 @@ $and:
 <p>MongoDB is great for manipulating/searching dict keys/values. The actual dataframes in each doc, we may want to save in a file system because:</p>
 <ul class="simple">
 <li><p>DataFrames are stored as bytes in MongoDB anyway, so they are not searchable</p></li>
-<li><p>Storing in files allows other non-python/non-MongoDB users easier access, allowing data to be detached from app</p></li>
 <li><p>MongoDB free version has limitations on size of document</p></li>
 <li><p>For data licensing issues, data must not sit on servers but needs to be stored on local computer</p></li>
+<li><p>Storing in files allows other non-python/non-MongoDB users easier access, allowing data to be detached from app. In particular, if you want to stream messages into the array/dataframe, doing it through Mongo is probably the wrong way about it. <a class="reference external" href="https://github.com/man-group/arctic">https://github.com/man-group/arctic</a> attempts to do it but Mongo should probably just contain a reference to a file. You then have a listener such as 0MQ appending new messages into the file (perhaps via <a class="reference external" href="https://github.com/xor2k/npy-append-array/">https://github.com/xor2k/npy-append-array/</a> or
+awswrangler). This will be (a) more performant, (b) require next to no code, and (c) new data will then magically show up in Mongo every time you read the document.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:

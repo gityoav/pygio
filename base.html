@@ -116,7 +116,56 @@ Further, this recognises that the keys are necessarily unique so it returns a ul
 <dl class="py method">
 <dt id="pyg.base._dictattr.dictattr.relabel">
 <code class="sig-name descname">relabel</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">relabels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dictattr.dictattr.relabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identical to relabel. See relabel for full docs</p>
+<dd><p>easy relabel/rename of keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>args<span class="classifier">str or callable</span></dt><dd><ul class="simple">
+<li><p>a string ending/starting with _ will trigger a prefix/suffix to all keys</p></li>
+<li><p>callable function will be applied to the keys to update them</p></li>
+</ul>
+</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>relabels<span class="classifier">strings</span></dt><dd><p>individual relabeling of keys</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>dictattr</dt><dd><p>new dict with renamed keys.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>suffix/prefix</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">dictattr</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="s1">&#39;x_&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">dictattr</span><span class="p">(</span><span class="n">x_a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x_b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x_c</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># prefixing</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="s1">&#39;_x&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">dictattr</span><span class="p">(</span><span class="n">a_x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b_x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c_x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># suffixing</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">upper</span><span class="p">)</span> <span class="o">==</span> <span class="n">dictattr</span><span class="p">(</span><span class="n">A</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>individual relabelling</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">dictattr</span><span class="p">(</span><span class="n">A</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">rename</span><span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">upper</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -135,7 +184,7 @@ Further, this recognises that the keys are necessarily unique so it returns a ul
 <dl class="py function">
 <dt id="pyg.base._dictattr.dictattr.__add__">
 <code class="sig-prename descclassname">pyg.base._dictattr.dictattr.</code><code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._dictattr.dictattr.__add__" title="Permalink to this definition">¶</a></dt>
-<dd><p>dictattr uses add as a copy + update. Similar to the latest python <a href="#id1"><span class="problematic" id="id2">|</span></a>=</p>
+<dd><p>dictattr uses add as a copy + update. Similar to the latest python <a href="#id5"><span class="problematic" id="id6">|</span></a>=</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p></p></dd>
@@ -301,7 +350,7 @@ dictattr uses subtraction to remove key(s)</p>
 <dl class="simple">
 <dt>function<span class="classifier">callable or list of callables</span></dt><dd><p>function to be applied per column</p>
 </dd>
-<dt><a href="#id3"><span class="problematic" id="id4">*</span></a>keys<span class="classifier">string/list of strings</span></dt><dd><p>list of columns to be applied. If missing, applied to all columns</p>
+<dt><a href="#id7"><span class="problematic" id="id8">*</span></a>keys<span class="classifier">string/list of strings</span></dt><dd><p>list of columns to be applied. If missing, applied to all columns</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -510,7 +559,7 @@ The interface is very succinct and allows the user to concentrate on logic of th
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id5"><span class="problematic" id="id6">*</span></a>others<span class="classifier">dictables</span></dt><dd><p>records to be added to current table</p>
+<dt><a href="#id9"><span class="problematic" id="id10">*</span></a>others<span class="classifier">dictables</span></dt><dd><p>records to be added to current table</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -548,7 +597,7 @@ The interface is very succinct and allows the user to concentrate on logic of th
 <dl class="simple">
 <dt>function<span class="classifier">callable or list of callables</span></dt><dd><p>function to be applied per column</p>
 </dd>
-<dt><a href="#id7"><span class="problematic" id="id8">*</span></a>keys<span class="classifier">string/list of strings</span></dt><dd><p>list of columns to be applied. If missing, applied to all columns</p>
+<dt><a href="#id11"><span class="problematic" id="id12">*</span></a>keys<span class="classifier">string/list of strings</span></dt><dd><p>list of columns to be applied. If missing, applied to all columns</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -587,9 +636,9 @@ The interface is very succinct and allows the user to concentrate on logic of th
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id9"><span class="problematic" id="id10">*</span></a>functions<span class="classifier">callables or a dict</span></dt><dd><p>filters based on functions of each row</p>
+<dt><a href="#id13"><span class="problematic" id="id14">*</span></a>functions<span class="classifier">callables or a dict</span></dt><dd><p>filters based on functions of each row</p>
 </dd>
-<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>filters<span class="classifier">value or list of values</span></dt><dd><p>filters per each column</p>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>filters<span class="classifier">value or list of values</span></dt><dd><p>filters per each column</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -648,7 +697,7 @@ The interface is very succinct and allows the user to concentrate on logic of th
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<p><a href="#id13"><span class="problematic" id="id14">*</span></a>by : str or list of strings</p>
+<p><a href="#id17"><span class="problematic" id="id18">*</span></a>by : str or list of strings</p>
 <blockquote>
 <div><p>gr.</p>
 </div></blockquote>
@@ -675,9 +724,9 @@ The interface is very succinct and allows the user to concentrate on logic of th
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id15"><span class="problematic" id="id16">*</span></a>functions<span class="classifier">callables or a dict</span></dt><dd><p>filters based on functions of each row</p>
+<dt><a href="#id19"><span class="problematic" id="id20">*</span></a>functions<span class="classifier">callables or a dict</span></dt><dd><p>filters based on functions of each row</p>
 </dd>
-<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>filters<span class="classifier">value or list of values</span></dt><dd><p>filters per each column</p>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>filters<span class="classifier">value or list of values</span></dt><dd><p>filters per each column</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -1542,7 +1591,7 @@ try_zero, try_false, try_true, try_nan and try_none will all return specific val
 <dl class="py function">
 <dt id="pyg.base._decorators.kwargs_support">
 <code class="sig-prename descclassname">pyg.base._decorators.</code><code class="sig-name descname">kwargs_support</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._decorators.kwargs_support" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extends a function to support <a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs inputs</p>
+<dd><p>Extends a function to support <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs inputs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p></p></dd>
@@ -1580,7 +1629,7 @@ The nearest parallel is actually an Excel cell:</p>
 </dl>
 <ul class="simple">
 <li><p>function is the function to be called</p></li>
-<li><p>** kwargs are the function named key value args. NOTE: NO SUPPORT for <a href="#id21"><span class="problematic" id="id22">*</span></a>args nor <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs in function</p></li>
+<li><p>** kwargs are the function named key value args. NOTE: NO SUPPORT for <a href="#id25"><span class="problematic" id="id26">*</span></a>args nor <a href="#id27"><span class="problematic" id="id28">**</span></a>kwargs in function</p></li>
 <li><p>output: where should the function output go?</p></li>
 </ul>
 <dl class="field-list simple">
@@ -2076,7 +2125,7 @@ The idea is to make object embedding in Mongo transparent to the user.</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id25"><span class="problematic" id="id26">*</span></a>args<span class="classifier">str, int or dates</span></dt><dd><p>argument to be converted into dates</p>
+<dt><a href="#id29"><span class="problematic" id="id30">*</span></a>args<span class="classifier">str, int or dates</span></dt><dd><p>argument to be converted into dates</p>
 </dd>
 <dt>dialect<span class="classifier">str, optional</span></dt><dd><p>parsing of 01/02/2020 is it 1st Feb or 2nd Jan? The default is ‘uk’, i.e. dd/mm/yyyy</p>
 </dd>
@@ -2379,8 +2428,8 @@ if day_start = 0 and day_end = 23:59:59 then this is exactly adjust.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id27">
-<h3>calendar<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>calendar<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._drange.calendar">
 <code class="sig-prename descclassname">pyg.base._drange.</code><code class="sig-name descname">calendar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">holidays</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">weekend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">t0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">t1</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">day_start</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">day_end</span><span class="o">=</span><span class="default_value">235959</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._drange.calendar" title="Permalink to this definition">¶</a></dt>
@@ -2666,7 +2715,7 @@ calendar: uses the business-days distance between any two dates</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id28"><span class="problematic" id="id29">*</span></a>values<span class="classifier">list of iterables</span></dt><dd><p>values for which we want to find common prefix</p>
+<dt><a href="#id32"><span class="problematic" id="id33">*</span></a>values<span class="classifier">list of iterables</span></dt><dd><p>values for which we want to find common prefix</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2946,13 +2995,13 @@ If <strong>ignore</strong> is provided as a list of values, will not overwrite b
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;id1&#39;</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s1">&#39;id2&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
-<p>or grades:
-&gt;&gt;&gt; res = tree_to_table(school, ‘teachers/%subject/grade/%grade’)
-&gt;&gt;&gt; assert res == [{‘grade’: 3, ‘subject’: ‘math’},</p>
-<blockquote>
-<div><p>{‘grade’: 3, ‘subject’: ‘english’},
-{‘grade’: 4, ‘subject’: ‘physics’}]</p>
-</div></blockquote>
+<p>or grades:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">tree_to_table</span><span class="p">(</span><span class="n">school</span><span class="p">,</span> <span class="s1">&#39;teachers/</span><span class="si">%s</span><span class="s1">ubject/grade/</span><span class="si">%g</span><span class="s1">rade&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">res</span> <span class="o">==</span> <span class="p">[{</span><span class="s1">&#39;grade&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;subject&#39;</span><span class="p">:</span> <span class="s1">&#39;math&#39;</span><span class="p">},</span>
+<span class="go">                     {&#39;grade&#39;: 3, &#39;subject&#39;: &#39;english&#39;},</span>
+<span class="go">                     {&#39;grade&#39;: 4, &#39;subject&#39;: &#39;physics&#39;}]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
@@ -3052,7 +3101,7 @@ If <strong>ignore</strong> is provided as a list of values, will not overwrite b
 <p>In practice, this function is has an incredible useful usage:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id30"><span class="problematic" id="id31">*</span></a>args</p>
+<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id34"><span class="problematic" id="id35">*</span></a>args</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_sum</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
@@ -3105,7 +3154,7 @@ none : bool optional</p>
 <p>In practice, this function is has an incredible useful usage:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id32"><span class="problematic" id="id33">*</span></a>args</p>
+<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id36"><span class="problematic" id="id37">*</span></a>args</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_sum</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
@@ -3240,8 +3289,8 @@ First compares by type, then by length, then by keys and finally on values</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id34">
-<h3>Cmp<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id38">
+<h3>Cmp<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._sort.Cmp">
 <code class="sig-prename descclassname">pyg.base._sort.</code><code class="sig-name descname">Cmp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._sort.Cmp" title="Permalink to this definition">¶</a></dt>
@@ -3389,7 +3438,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dl class="py function">
 <dt id="pyg.base._types.is_bool">
 <code class="sig-prename descclassname">pyg.base._types.</code><code class="sig-name descname">is_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._types.is_bool" title="Permalink to this definition">¶</a></dt>
-<dd><p>is value a Bool, or a <a href="#id43"><span class="problematic" id="id44">np.bool_</span></a> type</p>
+<dd><p>is value a Bool, or a <a href="#id47"><span class="problematic" id="id48">np.bool_</span></a> type</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3473,7 +3522,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dl class="py function">
 <dt id="pyg.base._types.is_str">
 <code class="sig-prename descclassname">pyg.base._types.</code><code class="sig-name descname">is_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._types.is_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>is value a str, or a <a href="#id45"><span class="problematic" id="id46">np.str_</span></a> type</p>
+<dd><p>is value a str, or a <a href="#id49"><span class="problematic" id="id50">np.str_</span></a> type</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3528,7 +3577,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id35"><span class="problematic" id="id36">*</span></a>values<span class="classifier">lists </span></dt><dd><p>values to be zipped</p>
+<dt><a href="#id39"><span class="problematic" id="id40">*</span></a>values<span class="classifier">lists </span></dt><dd><p>values to be zipped</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -3737,7 +3786,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>fullargspec<span class="classifier">FullArgSpec</span></dt><dd><p>DESCRIPTION.</p>
 </dd>
-<dt><a href="#id37"><span class="problematic" id="id38">**</span></a>update<span class="classifier">dict</span></dt><dd><p>parameter names with their default values.</p>
+<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>update<span class="classifier">dict</span></dt><dd><p>parameter names with their default values.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -3828,7 +3877,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>argspec<span class="classifier">FullArgSpec</span></dt><dd><p>The argspec of the dunction</p>
 </dd>
-<dt><a href="#id39"><span class="problematic" id="id40">**</span></a>kwargs<span class="classifier">TYPE</span></dt><dd><p>updates</p>
+<dt><a href="#id43"><span class="problematic" id="id44">**</span></a>kwargs<span class="classifier">TYPE</span></dt><dd><p>updates</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -3880,7 +3929,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>function<span class="classifier">callable</span></dt><dd><p>The function for  which we want the args</p>
 </dd>
-<dt>n<span class="classifier">int optional</span></dt><dd><p>get the name opf the args after allowing for n args to be set by <a href="#id41"><span class="problematic" id="id42">*</span></a>args. 
+<dt>n<span class="classifier">int optional</span></dt><dd><p>get the name opf the args after allowing for n args to be set by <a href="#id45"><span class="problematic" id="id46">*</span></a>args. 
 The default is 0.</p>
 </dd>
 </dl>
@@ -4046,7 +4095,7 @@ args : tuple</p>
 <li class="toctree-l3"><a class="reference internal" href="#drange">drange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#date-range">date_range</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calendar">Calendar</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#as-time">as_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clock">clock</a></li>
 </ul>
@@ -4085,7 +4134,7 @@ args : tuple</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#comparing-and-sorting">Comparing and Sorting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cmp">cmp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id34">Cmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id38">Cmp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sort">sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#eq">eq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#in">in</a></li>
