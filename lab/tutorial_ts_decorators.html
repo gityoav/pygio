@@ -1,0 +1,1115 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyg.timeseries decorators &#8212; pyg 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyg.timeseries.ewma" href="tutorial_ts_ewma_time.html" />
+    <link rel="prev" title="pyg.timeseries" href="tutorial_timeseries.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="section" id="pyg.timeseries-decorators">
+<h1>pyg.timeseries decorators<a class="headerlink" href="#pyg.timeseries-decorators" title="Permalink to this headline">¶</a></h1>
+<p>There are a few decorators that are relevant to timeseries analysis ## pd2np and compiled We write most of our underlying functions assuming the function parameters are 1-d numpy arrays. If you want them numba.jit compiled, please use the compiled operator.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="nd">@pd2np</span>
+<span class="nd">@compiled</span>
+<span class="k">def</span> <span class="nf">sumsq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+</pre></div>
+</div>
+</div>
+<p>It is not surpising that sumsq works for arrays. Notice how np.isnan is handled to ensure nans are skipped.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">sumsq</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ 0,  1,  5, 14, 30])
+</pre></div></div>
+</div>
+<p><strong>pd2np</strong> will convert a pandas Series to arrays, run the function and convert back to pandas. This will only work for a 1-dimensional objects, so no df nor 2-d np.ndarray.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sumsq</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2021-02-27     0
+2021-02-28     1
+2021-03-01     5
+2021-03-02    14
+2021-03-03    30
+dtype: int32
+</pre></div></div>
+</div>
+<div class="section" id="loop">
+<h2>loop<a class="headerlink" href="#loop" title="Permalink to this headline">¶</a></h2>
+<p>We decorate sumsq with the <strong>loop</strong> decorator. Once we introduce loop, The function will loop over columns of a DataFrame or a numpy array:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nd">@loop</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="nd">@pd2np</span>
+<span class="nd">@compiled</span>
+<span class="k">def</span> <span class="nf">sumsq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-02-27</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2021-02-28</th>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2021-03-01</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2021-03-02</th>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2021-03-03</th>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sumsq</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-02-27</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2021-02-28</th>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2021-03-01</th>
+      <td>5</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>2021-03-02</th>
+      <td>14</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>2021-03-03</th>
+      <td>30</td>
+      <td>55</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Indeed, since we asked it to loop over dict, list and numpy array (2d)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sumsq</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: array([ 0,  1,  5, 14, 30]), &#39;b&#39;: array([ 1,  5, 14, 30, 55])}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sumsq</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0,  1],
+       [ 1,  5],
+       [ 5, 14],
+       [14, 30],
+       [30, 55]])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="presync:-manage-indexing-and-date-stamps">
+<h2>presync: manage indexing and date stamps<a class="headerlink" href="#presync:-manage-indexing-and-date-stamps" title="Permalink to this headline">¶</a></h2>
+<p>Suppose the function takes two (or more) timeseries.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nd">@presync</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="nd">@loop</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+<span class="nd">@pd2np</span>
+<span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ 0,  1,  4,  9, 16])
+</pre></div></div>
+</div>
+<p>What happens when the weights and the timeseries are unsynchronized?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span> <span class="p">;</span> <span class="n">a_</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+<span class="n">b_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span> <span class="n">b_</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-02-27</th>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2021-02-28</th>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2021-03-01</th>
+      <td>2.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2021-03-02</th>
+      <td>3.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2021-03-03</th>
+      <td>4.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2021-03-04</th>
+      <td>NaN</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">product</span><span class="p">(</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">)</span> <span class="c1">## just the inner values</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2021-02-28     0
+2021-03-01     2
+2021-03-02     6
+2021-03-03    12
+Freq: D, dtype: int32
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">product</span><span class="o">.</span><span class="n">oj</span><span class="p">(</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">)</span> <span class="c1">## outer join</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2021-02-27     NaN
+2021-02-28     0.0
+2021-03-01     2.0
+2021-03-02     6.0
+2021-03-03    12.0
+2021-03-04     NaN
+Freq: D, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">product</span><span class="o">.</span><span class="n">oj</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">)</span> <span class="c1">## outer join and forward-fill</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2021-02-27     NaN
+2021-02-28     0.0
+2021-03-01     2.0
+2021-03-02     6.0
+2021-03-03    12.0
+2021-03-04    16.0
+Freq: D, dtype: float64
+</pre></div></div>
+</div>
+<div class="section" id="presync-and-numpy-arrays">
+<h3>presync and numpy arrays<a class="headerlink" href="#presync-and-numpy-arrays" title="Permalink to this headline">¶</a></h3>
+<p>When we deal with thousands of equities, one way of speeding calculations is by stacking them all onto huge dataframes. This does work but one is always busy fiddling with ‘the universe’ one is trading. We took a slightly different approach:</p>
+<ul class="simple">
+<li><p>We define a global timestamp.</p></li>
+<li><p>We then sample each timeseries to that global timestamp, dropping the early history where the data is all nan. (df_fillna(ts, index, method = ‘fnna’)).</p></li>
+<li><p>We then do our research on these numpy arrays.</p></li>
+<li><p>Finally, once we are done, we resample back to the global timestamp.</p></li>
+</ul>
+<p>While we are in numpy arrays, we can ‘inner join’ by recognising the ‘end’ of each array shares the same date. Indeed df_index, df_reindex and presync all work seemlessly on np.ndarray as well as DataFrames, under that assumption that <strong>the end of all arrays are in sync</strong>.</p>
+<p>We find this approach saves on memory and on computation time. It also lends itself to being able to retrieve and create specific universes for specific trading ideas. It is not without its own issues but that is a separate discussion.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0, 1, 2, 3, 4]), array([1, 2, 3, 4]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ 1,  4,  9, 16])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">us</span> <span class="o">=</span> <span class="n">calendar</span><span class="p">(</span><span class="s1">&#39;US&#39;</span><span class="p">)</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">us</span><span class="o">.</span><span class="n">drange</span><span class="p">(</span><span class="s1">&#39;-40y&#39;</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="s1">&#39;1b&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">universe</span> <span class="o">=</span> <span class="n">dictable</span><span class="p">(</span><span class="n">stock</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;msft&#39;</span><span class="p">,</span> <span class="s1">&#39;appl&#39;</span><span class="p">,</span> <span class="s1">&#39;tsla&#39;</span><span class="p">],</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">7000</span><span class="p">])</span>
+<span class="n">universe</span> <span class="o">=</span> <span class="n">universe</span><span class="p">(</span><span class="n">ts</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">us</span><span class="o">.</span><span class="n">drange</span><span class="p">(</span><span class="s1">&#39;-</span><span class="si">%i</span><span class="s1">b&#39;</span><span class="o">%</span><span class="k">n</span>, 0, &#39;1b&#39;))[np.random.normal(0,1,n+1)&gt;-1])
+<span class="n">universe</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dictable[3 x 3]
+stock|n    |ts
+msft |10000|1982-11-03   -1.309868
+     |     |1982-11-04   -0.737816
+     |     |1982-11-05    0.460173
+     |     |1982-11-08   -0.895898
+     |     |1982-11-09   -0.813305
+appl |8000 |1990-07-04    0.040855
+     |     |1990-07-05   -1.327995
+     |     |1990-07-06    0.114328
+     |     |1990-07-09   -1.626176
+     |     |1990-07-10   -0.031428
+tsla |7000 |1994-05-04   -1.259911
+     |     |1994-05-05    1.014304
+     |     |1994-05-09   -0.035104
+     |     |1994-05-10   -1.265964
+     |     |1994-05-11   -0.001664
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">universe</span> <span class="o">=</span> <span class="n">universe</span><span class="p">(</span><span class="n">rtn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ts</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">universe</span> <span class="o">=</span> <span class="n">universe</span><span class="p">(</span><span class="n">price</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span> <span class="p">:</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">rtn</span><span class="p">))</span>
+<span class="n">universe</span> <span class="o">=</span> <span class="n">universe</span><span class="p">(</span><span class="n">vol</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span><span class="p">:</span> <span class="n">ewmstd</span><span class="p">(</span><span class="n">rtn</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">universe</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dictable[3 x 6]
+stock|n    |ts                    |rtn                                               |price                                             |vol
+msft |10000|1982-11-03   -1.309868|[-1.3098679  -0.73781612  0.4601727  ... -0.327291|[-1.3098679  -2.04768402 -1.58751132 ...  4.750977|[       nan        nan        nan ... 1.02923517 1
+     |     |1982-11-04   -0.737816|  0.67289106]                                     |  5.89220017]                                     |
+     |     |1982-11-05    0.460173|                                                  |                                                  |
+     |     |1982-11-08   -0.895898|                                                  |                                                  |
+     |     |1982-11-09   -0.813305|                                                  |                                                  |
+appl |8000 |1990-07-04    0.040855|[ 0.04085499 -1.32799499  0.11432766 ... -1.017795|[ 4.08549924e-02 -1.28714000e+00 -1.17281234e+00 .|[       nan        nan        nan ... 0.88535052 0
+     |     |1990-07-05   -1.327995| -0.82540937]                                     |  7.67908570e+01  7.59654476e+01]                 |
+     |     |1990-07-06    0.114328|                                                  |                                                  |
+     |     |1990-07-09   -1.626176|                                                  |                                                  |
+     |     |1990-07-10   -0.031428|                                                  |                                                  |
+tsla |7000 |1994-05-04   -1.259911|[-1.25991126  1.01430418 -0.0351036  ... -0.174814|[-1.25991126 -0.24560708 -0.28071068 ... 24.331768|[       nan        nan        nan ... 0.94944115 0
+     |     |1994-05-05    1.014304| -0.69279468]                                     | 23.93415613]                                     |
+     |     |1994-05-09   -0.035104|                                                  |                                                  |
+     |     |1994-05-10   -1.265964|                                                  |                                                  |
+     |     |1994-05-11   -0.001664|                                                  |                                                  |
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">presync</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tss</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)(</span><span class="n">universe</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[1.01584217, 0.95105069,        nan],
+       [1.02939552, 0.99139701,        nan],
+       [1.01323584, 0.97982437,        nan],
+       ...,
+       [1.02923517, 0.88535052, 0.94944115],
+       [1.018515  , 0.91252795, 0.93434464],
+       [1.01216505, 0.91053212, 0.93155713]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">universe</span> <span class="o">=</span> <span class="n">universe</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">np_reindex</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dates</span><span class="p">),</span> <span class="s1">&#39;rtn&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;vol&#39;</span><span class="p">)</span>
+<span class="n">universe</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dictable[3 x 6]
+stock|n    |ts                    |rtn                   |price                  |vol
+msft |10000|1982-11-03   -1.309868|1988-11-21   -1.309868|1988-11-21   -1.309868 |1988-11-21         NaN
+     |     |1982-11-04   -0.737816|1988-11-22   -0.737816|1988-11-22   -2.047684 |1988-11-22         NaN
+     |     |1982-11-05    0.460173|1988-11-23    0.460173|1988-11-23   -1.587511 |1988-11-23         NaN
+     |     |1982-11-08   -0.895898|1988-11-24   -0.895898|1988-11-24   -2.483409 |1988-11-24         NaN
+     |     |1982-11-09   -0.813305|1988-11-25   -0.813305|1988-11-25   -3.296714 |1988-11-25         NaN
+appl |8000 |1990-07-04    0.040855|1995-04-20    0.040855|1995-04-20     0.040855|1995-04-20         NaN
+     |     |1990-07-05   -1.327995|1995-04-21   -1.327995|1995-04-21    -1.287140|1995-04-21         NaN
+     |     |1990-07-06    0.114328|1995-04-24    0.114328|1995-04-24    -1.172812|1995-04-24         NaN
+     |     |1990-07-09   -1.626176|1995-04-25   -1.626176|1995-04-25    -2.798988|1995-04-25         NaN
+     |     |1990-07-10   -0.031428|1995-04-26   -0.031428|1995-04-26    -2.830417|1995-04-26         NaN
+tsla |7000 |1994-05-04   -1.259911|1998-09-11   -1.259911|1998-09-11    -1.259911|1998-09-11         NaN
+     |     |1994-05-05    1.014304|1998-09-14    1.014304|1998-09-14    -0.245607|1998-09-14         NaN
+     |     |1994-05-09   -0.035104|1998-09-15   -0.035104|1998-09-15    -0.280711|1998-09-15         NaN
+     |     |1994-05-10   -1.265964|1998-09-16   -1.265964|1998-09-16    -1.546674|1998-09-16         NaN
+     |     |1994-05-11   -0.001664|1998-09-17   -0.001664|1998-09-17    -1.548338|1998-09-17         NaN
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">vol</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">universe</span><span class="o">.</span><span class="n">vol</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span> <span class="n">vol</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">universe</span><span class="o">.</span><span class="n">stock</span>
+<span class="n">vol</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>msft</th>
+      <th>appl</th>
+      <th>tsla</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1988-11-21</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1988-11-22</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1988-11-23</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1988-11-24</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1988-11-25</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2021-02-25</th>
+      <td>1.063016</td>
+      <td>0.890791</td>
+      <td>0.931185</td>
+    </tr>
+    <tr>
+      <th>2021-02-26</th>
+      <td>1.045735</td>
+      <td>0.880376</td>
+      <td>0.963182</td>
+    </tr>
+    <tr>
+      <th>2021-03-01</th>
+      <td>1.029235</td>
+      <td>0.885351</td>
+      <td>0.949441</td>
+    </tr>
+    <tr>
+      <th>2021-03-02</th>
+      <td>1.018515</td>
+      <td>0.912528</td>
+      <td>0.934345</td>
+    </tr>
+    <tr>
+      <th>2021-03-03</th>
+      <td>1.012165</td>
+      <td>0.910532</td>
+      <td>0.931557</td>
+    </tr>
+  </tbody>
+</table>
+<p>8423 rows × 3 columns</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../base.html">pyg.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mongo.html">pyg.mongo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../timeseries.html">pyg.timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_dict.html">pyg.base.Dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_dictable.html">pyg.base.dictable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_mongo.html">pyg.mongo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_cell.html">pyg.base.cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_perdictable.html">pyg.base.join</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_timeseries.html">pyg.timeseries</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyg.timeseries decorators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#loop">loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#presync:-manage-indexing-and-date-stamps">presync: manage indexing and date stamps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#presync-and-numpy-arrays">presync and numpy arrays</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_ts_ewma_time.html">pyg.timeseries.ewma</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tutorial_timeseries.html" title="previous chapter">pyg.timeseries</a></li>
+      <li>Next: <a href="tutorial_ts_ewma_time.html" title="next chapter">pyg.timeseries.ewma</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Yoav Git.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/lab/tutorial_ts_decorators.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
