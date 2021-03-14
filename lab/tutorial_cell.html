@@ -1869,6 +1869,127 @@ Length: 10543, dtype: float64
 <li><p>We can run just the parts of the graph we are interested in (and can run in parallel)</p></li>
 </ul>
 </div>
+<div class="section" id="To-save-or-not-to-save?">
+<h2>To save or not to save?<a class="headerlink" href="#To-save-or-not-to-save?" title="Permalink to this headline">¶</a></h2>
+<p>Luckily we don’t really need to decide on one workflow or the other as both can happily coexist. We can build a calculation graph and decide that some key points in the calculation we want to save while intermediate calculations we can calculate on the fly and not save at all. We have met the crossover function. Here we implement it ‘on the fly’ while saving just final value to db</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">fake_ts</span><span class="p">(</span><span class="n">ticker</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
+<span class="n">db</span><span class="p">()</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:03,885 - pyg - INFO - INFO: deleting 7 documents based on M{}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pyg.mongo._cursor.mongo_cursor&#39;&gt; for Collection(Database(MongoClient(host=[&#39;localhost:27017&#39;], document_class=dict, tz_aware=False, connect=True), &#39;test&#39;), &#39;test&#39;)
+M{} None
+documents count: 0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">appl</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">fake_ts</span><span class="p">,</span> <span class="n">ticker</span> <span class="o">=</span> <span class="s1">&#39;appl&#39;</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_rtn&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">)()</span>
+
+<span class="c1">#I am never saving these, In fact, I don&#39;t want to see these in calculation log.</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">ewma</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">appl</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">ewma</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">appl</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># I may want to save these nodes but haven&#39;t made up my mind</span>
+<span class="c1"># I do want to see the calculations in the log though...</span>
+<span class="c1"># I replace db by the primary keys of table (here &#39;key&#39;).</span>
+<span class="c1"># This allows as to see the calculation log as it happens.</span>
+<span class="c1"># data is not saved to db though until I switch to db = db as opposed to db = &#39;key&#39;</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">sub_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;calculate difference of ewma&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">ewmrms</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;root mean square of difference&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
+
+<span class="c1"># The final crossover I definitely want to save to db:</span>
+<span class="n">final_value</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">div_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_crossover&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">)()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:04,243 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_rtn&#39;,))
+2021-03-14 00:08:04,416 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_crossover&#39;,))
+2021-03-14 00:08:04,419 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+2021-03-14 00:08:05,162 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;root mean square of difference&#39;,))
+2021-03-14 00:08:05,164 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">db</span><span class="p">()</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;appl_crossover&#39;, &#39;appl_rtn&#39;]
+</pre></div></div>
+</div>
+<p>So although we had several intermediate steps, we decided to save just the final crossover in the database, If we look at the inputs for the function, you can see that the values are not saved in the database, though the full calculation tree <em>is</em>. Therefore, one can reload the node and then recalculate all the intermediate values on the fly</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">loaded_and_recalculated</span> <span class="o">=</span> <span class="p">(</span><span class="n">db</span><span class="p">()[</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_crossover&#39;</span><span class="p">)]</span> <span class="o">-</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">## but once recalculated, we can assert we got the same result</span>
+<span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">loaded_and_recalculated</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">final_value</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:09,934 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_crossover&#39;,))
+2021-03-14 00:08:09,936 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+2021-03-14 00:08:10,091 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;root mean square of difference&#39;,))
+2021-03-14 00:08:10,095 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+</pre></div></div>
+</div>
+</div>
 <div class="section" id="Behind-the-scene:-cell_func">
 <h2>Behind the scene: cell_func<a class="headerlink" href="#Behind-the-scene:-cell_func" title="Permalink to this headline">¶</a></h2>
 <p>Behind the scene of cell, there is machinary designed to make it work smoothly and transparently in most cases. However, sometimes the user may need to dig deeper. Here is an example for code that fails…</p>
@@ -2099,6 +2220,7 @@ data:
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Comparison-of-the-two-workflows">Comparison of the two workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#To-save-or-not-to-save?">To save or not to save?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Behind-the-scene:-cell_func">Behind the scene: cell_func</a></li>
 </ul>
 </li>

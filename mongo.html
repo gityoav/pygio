@@ -1014,42 +1014,6 @@ Its calculation schedule depends on when it was last updated.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="db-ref">
-<h3>db_ref<a class="headerlink" href="#db-ref" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt id="pyg.mongo._db_cell.db_ref">
-<code class="sig-prename descclassname">pyg.mongo._db_cell.</code><code class="sig-name descname">db_ref</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.mongo._db_cell.db_ref" title="Permalink to this definition">¶</a></dt>
-<dd><p>db_ref strips a db_cell so that it contains only the reference needed to its location in the database.
-When we save OTHER cells, referencing this cell, we apply db_ref and only save the bare data needed to reload cell</p>
-<dl class="field-list simple">
-<dt class="field-odd">Example</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">add_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">)()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">3</span>    
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bare</span> <span class="o">=</span> <span class="n">db_ref</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="s1">&#39;a&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bare</span> <span class="ow">and</span> <span class="s1">&#39;b&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bare</span> <span class="ow">and</span> <span class="s1">&#39;data&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bare</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reloaded</span> <span class="o">=</span> <span class="n">db_load</span><span class="p">(</span><span class="n">bare</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">reloaded</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">reloaded</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">3</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<dl class="simple">
-<dt>value: obj</dt><dd><p>db_cell (or list/dict of) to be made into reference</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
 </div>
 </div>
 
@@ -1096,7 +1060,6 @@ When we save OTHER cells, referencing this cell, we apply db_ref and only save t
 <li class="toctree-l3"><a class="reference internal" href="#get-cell">get_cell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#db-save">db_save</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#db-load">db_load</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#db-ref">db_ref</a></li>
 </ul>
 </li>
 </ul>
