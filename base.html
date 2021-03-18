@@ -1710,6 +1710,121 @@ The nearest parallel is actually an Excel cell:</p>
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; a shallow copy of D<a class="headerlink" href="#pyg.base._cell.cell.copy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt id="pyg.base._cell.cell.go">
+<code class="sig-name descname">go</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">go</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.go" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates the cell (if needed). By default, will then run cell.save() to save the cell. 
+If you don’t want to save the output (perhaps you want to check it first), use cell._go()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>go<span class="classifier">int, optional</span></dt><dd><p>a parameter that forces calculation. The default is 0.
+go = 0: calculate cell only if cell.run() is True
+go = 1: calculate THIS cell regardless. calculate the parents only if their cell.run() is True
+go = 2: calculate THIS cell and PARENTS cell regardless, calculate grandparents if cell.run() is True etc.
+go = -1: calculate the entire tree again.</p>
+</dd>
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>kwargs<span class="classifier">parameters</span></dt><dd><p>You can actually allocate the variables to the function at runtime</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>cell</dt><dd><p>the cell, calculated</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>different values of go</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="nb">max</span><span class="p">([</span><span class="n">dt</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">(</span><span class="n">y</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">f</span><span class="p">)()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">)()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">b</span><span class="p">)()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">c</span><span class="p">)()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">go</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e0</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e_1</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">e0</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">e1</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">e1</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">e2</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">e2</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">e2</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">e_1</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">e_1</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">e_1</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>adding parameters on the run</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyg.base._cell.cell.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the cell from the database based on primary keys of cell perhaps. Not implemented for simple cell. see db_cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>cell</dt><dd><p>self, updated with values from database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyg.base._cell.cell.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if the cell needs calculation. This depends on the nature of the cell. 
+By default (for cell and db_cell), if the cell is already calculated so that cell._output exists, then returns False. otherwise True</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>run cell?</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyg.base._cell.cell.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the cell for persistency. Not implemented for simple cell. see db_cell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl class="simple">
+<dt>cell</dt><dd><p>self, saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -2192,7 +2307,7 @@ The idea is to make object embedding in Mongo transparent to the user.</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id29"><span class="problematic" id="id30">*</span></a>args<span class="classifier">str, int or dates</span></dt><dd><p>argument to be converted into dates</p>
+<dt><a href="#id31"><span class="problematic" id="id32">*</span></a>args<span class="classifier">str, int or dates</span></dt><dd><p>argument to be converted into dates</p>
 </dd>
 <dt>dialect<span class="classifier">str, optional</span></dt><dd><p>parsing of 01/02/2020 is it 1st Feb or 2nd Jan? The default is ‘uk’, i.e. dd/mm/yyyy</p>
 </dd>
@@ -2495,8 +2610,8 @@ if day_start = 0 and day_end = 23:59:59 then this is exactly adjust.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id31">
-<h3>calendar<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>calendar<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._drange.calendar">
 <code class="sig-prename descclassname">pyg.base._drange.</code><code class="sig-name descname">calendar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">holidays</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">weekend</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">t0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">t1</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">day_start</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">day_end</span><span class="o">=</span><span class="default_value">235959</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._drange.calendar" title="Permalink to this definition">¶</a></dt>
@@ -2782,7 +2897,7 @@ calendar: uses the business-days distance between any two dates</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id32"><span class="problematic" id="id33">*</span></a>values<span class="classifier">list of iterables</span></dt><dd><p>values for which we want to find common prefix</p>
+<dt><a href="#id34"><span class="problematic" id="id35">*</span></a>values<span class="classifier">list of iterables</span></dt><dd><p>values for which we want to find common prefix</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -3270,7 +3385,7 @@ If <strong>ignore</strong> is provided as a list of values, will not overwrite b
 <p>In practice, this function is has an incredible useful usage:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id34"><span class="problematic" id="id35">*</span></a>args</p>
+<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id36"><span class="problematic" id="id37">*</span></a>args</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_sum</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
@@ -3323,7 +3438,7 @@ none : bool optional</p>
 <p>In practice, this function is has an incredible useful usage:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id36"><span class="problematic" id="id37">*</span></a>args</p>
+<dd class="field-odd"><p>using as_list to give flexibility on <a href="#id38"><span class="problematic" id="id39">*</span></a>args</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_sum</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">):</span>
@@ -3458,8 +3573,8 @@ First compares by type, then by length, then by keys and finally on values</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id38">
-<h3>Cmp<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id40">
+<h3>Cmp<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._sort.Cmp">
 <code class="sig-prename descclassname">pyg.base._sort.</code><code class="sig-name descname">Cmp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._sort.Cmp" title="Permalink to this definition">¶</a></dt>
@@ -3607,7 +3722,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dl class="py function">
 <dt id="pyg.base._types.is_bool">
 <code class="sig-prename descclassname">pyg.base._types.</code><code class="sig-name descname">is_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._types.is_bool" title="Permalink to this definition">¶</a></dt>
-<dd><p>is value a Bool, or a <a href="#id47"><span class="problematic" id="id48">np.bool_</span></a> type</p>
+<dd><p>is value a Bool, or a <a href="#id49"><span class="problematic" id="id50">np.bool_</span></a> type</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3691,7 +3806,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dl class="py function">
 <dt id="pyg.base._types.is_str">
 <code class="sig-prename descclassname">pyg.base._types.</code><code class="sig-name descname">is_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._types.is_str" title="Permalink to this definition">¶</a></dt>
-<dd><p>is value a str, or a <a href="#id49"><span class="problematic" id="id50">np.str_</span></a> type</p>
+<dd><p>is value a str, or a <a href="#id51"><span class="problematic" id="id52">np.str_</span></a> type</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3746,7 +3861,7 @@ First compares by type, then by length, then by keys and finally on values</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <dl class="simple">
-<dt><a href="#id39"><span class="problematic" id="id40">*</span></a>values<span class="classifier">lists </span></dt><dd><p>values to be zipped</p>
+<dt><a href="#id41"><span class="problematic" id="id42">*</span></a>values<span class="classifier">lists </span></dt><dd><p>values to be zipped</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -3955,7 +4070,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>fullargspec<span class="classifier">FullArgSpec</span></dt><dd><p>DESCRIPTION.</p>
 </dd>
-<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>update<span class="classifier">dict</span></dt><dd><p>parameter names with their default values.</p>
+<dt><a href="#id43"><span class="problematic" id="id44">**</span></a>update<span class="classifier">dict</span></dt><dd><p>parameter names with their default values.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -4046,7 +4161,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>argspec<span class="classifier">FullArgSpec</span></dt><dd><p>The argspec of the dunction</p>
 </dd>
-<dt><a href="#id43"><span class="problematic" id="id44">**</span></a>kwargs<span class="classifier">TYPE</span></dt><dd><p>updates</p>
+<dt><a href="#id45"><span class="problematic" id="id46">**</span></a>kwargs<span class="classifier">TYPE</span></dt><dd><p>updates</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -4098,7 +4213,7 @@ reducing(‘inc’)(d, dict(a=1))</p>
 <dl class="simple">
 <dt>function<span class="classifier">callable</span></dt><dd><p>The function for  which we want the args</p>
 </dd>
-<dt>n<span class="classifier">int optional</span></dt><dd><p>get the name opf the args after allowing for n args to be set by <a href="#id45"><span class="problematic" id="id46">*</span></a>args. 
+<dt>n<span class="classifier">int optional</span></dt><dd><p>get the name opf the args after allowing for n args to be set by <a href="#id47"><span class="problematic" id="id48">*</span></a>args. 
 The default is 0.</p>
 </dd>
 </dl>
@@ -4265,7 +4380,7 @@ args : tuple</p>
 <li class="toctree-l3"><a class="reference internal" href="#drange">drange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#date-range">date_range</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calendar">Calendar</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">calendar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">calendar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#as-time">as_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clock">clock</a></li>
 </ul>
@@ -4307,7 +4422,7 @@ args : tuple</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#comparing-and-sorting">Comparing and Sorting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cmp">cmp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id38">Cmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Cmp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sort">sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#eq">eq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#in">in</a></li>

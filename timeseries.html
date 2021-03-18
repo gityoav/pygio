@@ -210,24 +210,21 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 <h3>ts_count<a class="headerlink" href="#ts-count" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._ts.ts_count">
-<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_count</code><span class="sig-paren">(</span><em class="sig-param">a) is equivalent to a.count(</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ts.ts_count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">ts_count</code><span class="sig-paren">(</span><em class="sig-param">a) is equivalent to a.count() (though slightly slower</em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ts.ts_count" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li><p>supports numpy arrays</p></li>
-<li><p>handles nan</p></li>
+<li><p>skips nan</p></li>
 <li><p>supports state management</p></li>
-<li><p>pandas is actually faster on count</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-</pre></div>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>pandas matching</p>
 </dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_count</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create sample data:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">));</span> <span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">ts_count</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -244,7 +241,7 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span> <span class="o">=</span> <span class="n">ts_count_</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">2000</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new</span> <span class="o">=</span> <span class="n">ts_count</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:],</span> <span class="n">vec</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">vec</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new</span> <span class="o">=</span> <span class="n">ts_count</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:],</span> <span class="n">state</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">new</span> <span class="o">==</span> <span class="n">ts_count</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -487,6 +484,10 @@ There are three issues with pandas that pyg.timeseries tries  to address:</p>
 </dd>
 <dt>axis<span class="classifier">int, optional</span></dt><dd><p>0/1/-1. The default is 0.</p>
 </dd>
+<dt>min_sample: float, optional</dt><dd><p>This refers to the denominator when we calculate the skew. Over time, the deonimator converges to 1 but initially, it is small. 
+Also, if there is a gap in the data, older datapoints weight may have decayed while there are not enough “new point”. 
+min_sample ensures that in both cases, if denominator&lt;0.25 )(default value) we return nan.</p>
+</dd>
 <dt>data: None</dt><dd><p>unused at the moment. Allow code such as func(live, <a href="#id13"><span class="problematic" id="id14">**</span></a>func_(history)) to work</p>
 </dd>
 <dt>state: dict, optional</dt><dd><p>state parameters used to instantiate the internal calculations, based on history prior to ‘a’ provided.</p>
@@ -700,13 +701,13 @@ supports state manegement which is needed if we want only nth</p>
 <h3>nona<a class="headerlink" href="#nona" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.timeseries._ts.nona">
-<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">nona</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">nan</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ts.nona" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyg.timeseries._ts.</code><code class="sig-name descname">nona</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">nan</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ts.nona" title="Permalink to this definition">¶</a></dt>
 <dd><p>removes rows that are entirely nan (or a specific other value)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<p>df : dataframe/ndarray</p>
+<p>a : dataframe/ndarray</p>
 <dl class="simple">
 <dt>value<span class="classifier">float, optional</span></dt><dd><p>value to be removed. The default is np.nan.</p>
 </dd>
@@ -2831,6 +2832,10 @@ n : int/fraction</p>
 <dt id="pyg.timeseries._ewm.ewmcor">
 <code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmcor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmcor" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculates pair-wise correlation between a and b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
 <p>a : array/timeseries
 b : array/timeseries
 n : int/fraction</p>
@@ -2901,6 +2906,182 @@ n : int/fraction</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new_ts</span> <span class="o">=</span> <span class="n">ewmcor</span><span class="p">(</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">old_ts</span><span class="p">)</span> <span class="c1"># instantiation with previous ewma</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">ewmcor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_ts</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="ewmlr">
+<h3>ewmLR<a class="headerlink" href="#ewmlr" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.timeseries._ewm.ewmLR">
+<code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmLR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">c</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">m</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmLR" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates pair-wise linear regression between a and b.
+We have a and b for which we want to fit:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b_i</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">m</span> <span class="n">a_i</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LSE</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> \<span class="nb">sum</span> <span class="n">w_i</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">m</span> <span class="n">a_i</span> <span class="o">-</span> <span class="n">b_i</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dLSE</span><span class="o">/</span><span class="n">dc</span>  <span class="o">=</span> <span class="mi">0</span>  <span class="o">&lt;==&gt;</span> \<span class="nb">sum</span> <span class="n">w_i</span>  <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">m</span> <span class="n">a_i</span> <span class="o">-</span> <span class="n">b_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>    <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dLSE</span><span class="o">/</span><span class="n">dm</span>  <span class="o">=</span> <span class="mi">0</span> <span class="o">&lt;==&gt;</span> \<span class="nb">sum</span> <span class="n">w_i</span>  <span class="n">a_i</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">m</span> <span class="n">a_i</span> <span class="o">-</span> <span class="n">b_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>     <span class="o">+</span> <span class="n">mE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>    <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>     <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">mE</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>  <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">ab</span><span class="p">)</span>    <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">mE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>  <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">E</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">ab</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="n">E</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">covar</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">mE</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>a : array/timeseries
+b : array/timeseries
+n : int/fraction</p>
+<blockquote>
+<div><p>The number or days (or a ratio) to scale the history</p>
+</div></blockquote>
+<dl class="simple">
+<dt>time<span class="classifier">Calendar, ‘b/d/y/m’ or a timeseries of time (use clock(a) to see output)</span></dt><dd><dl class="simple">
+<dt>If time parameter is provided, we allow multiple observations per unit of time. i.e., converging to the last observation in time unit. </dt><dd><ul class="simple">
+<li><p>if we have intraday data, and set time = ‘d’, then</p></li>
+<li><p>the ewm calculation on last observations per day is what is retained.</p></li>
+<li><p>the ewm calculation on each intraday observation is same as an ewm(past EOD + current intraday observation)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>min_sample<span class="classifier">floar, optional</span></dt><dd><p>minimum weight of observations before we return a reading. The default is 0.25. This ensures that we don’t get silly numbers due to small population.</p>
+</dd>
+<dt>bias<span class="classifier">book, optional</span></dt><dd><p>vol estimation for a and b should really by unbiased. Nevertheless, we track pandas and set bias = True as a default.</p>
+</dd>
+<dt>axis<span class="classifier">int, optional</span></dt><dd><p>axis of calculation. The default is 0.</p>
+</dd>
+<dt>c,m<span class="classifier">place holder, ignore, optional</span></dt><dd><p>ignore. The default is None.</p>
+</dd>
+<dt>state<span class="classifier">dict, optional</span></dt><dd><p>Output from a previous run of <a class="reference internal" href="#ewmcor">ewmcor</a>. The default is None.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>numpy arrays support</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">ewmLR</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">ewmLR</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>nan handling</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">values</span><span class="o">&lt;-</span><span class="mf">0.1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">ewmcor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="s1">&#39;i&#39;</span><span class="p">);</span> <span class="n">df</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">ewm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="c1"># note: pandas assumes, &#39;time&#39; pass per index entry, even if value is nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="o">-</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">&lt;</span><span class="mf">1e-10</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>state management</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5000</span><span class="p">];</span> <span class="n">old_b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5000</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5000</span><span class="p">:];</span> <span class="n">new_b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5000</span><span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old_ts</span> <span class="o">=</span> <span class="n">ewmLR_</span><span class="p">(</span><span class="n">old_a</span><span class="p">,</span> <span class="n">old_b</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_ts</span> <span class="o">=</span> <span class="n">ewmLR</span><span class="p">(</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">old_ts</span><span class="p">)</span> <span class="c1"># instantiation with previous ewma</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="n">ewmLR</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_ts</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">new_ts</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5000</span><span class="p">:])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a0</span> <span class="o">-</span> <span class="n">a1</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">a0</span><span class="p">,</span><span class="n">a1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LR</span> <span class="o">=</span> <span class="n">ewmLR</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">LR</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">LR</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="ewmglm">
+<h3>ewmGLM<a class="headerlink" href="#ewmglm" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="pyg.timeseries._ewm.ewmGLM">
+<code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmGLM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmGLM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a General Linear Model fitting b to a.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>a : a 2-d array/pd.DataFrame of values fitting b
+b : a 1-d array/pd.Series
+n : int/fraction</p>
+<blockquote>
+<div><p>The number or days (or a ratio) to scale the history</p>
+</div></blockquote>
+<dl class="simple">
+<dt>time<span class="classifier">Calendar, ‘b/d/y/m’ or a timeseries of time (use clock(a) to see output)</span></dt><dd><dl class="simple">
+<dt>If time parameter is provided, we allow multiple observations per unit of time. i.e., converging to the last observation in time unit. </dt><dd><ul class="simple">
+<li><p>if we have intraday data, and set time = ‘d’, then</p></li>
+<li><p>the ewm calculation on last observations per day is what is retained.</p></li>
+<li><p>the ewm calculation on each intraday observation is same as an ewm(past EOD + current intraday observation)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>min_sample<span class="classifier">floar, optional</span></dt><dd><p>minimum weight of observations before we return the fitting. The default is 0.25. This ensures that we don’t get silly numbers due to small population.</p>
+</dd>
+<dt>data<span class="classifier">place holder, ignore, optional</span></dt><dd><p>ignore. The default is None.</p>
+</dd>
+<dt>state<span class="classifier">dict, optional</span></dt><dd><p>Output from a previous run of <a class="reference internal" href="#ewmglm">ewmGLM</a>. The default is None.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Theory</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>See <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_linear_model">https://en.wikipedia.org/wiki/Generalized_linear_model</a> for full details.
+Briefly, we assume b is single column while a is multicolumn. 
+We minimize least square error (LSE) fitting:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>\<span class="n">sum_j</span> <span class="n">m_j</span> <span class="n">a_j</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LSE</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> \<span class="n">sum_i</span> <span class="n">w_i</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> \<span class="n">sum_j</span> <span class="n">m_j</span> <span class="o">*</span> <span class="n">a_j</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dLSE</span><span class="o">/</span><span class="n">dm_k</span> <span class="o">=</span> <span class="mi">0</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="o">&lt;==&gt;</span>  \<span class="n">sum_i</span> <span class="n">w_i</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> \<span class="n">sum_j</span> <span class="n">m_j</span> <span class="o">*</span> <span class="n">a_j</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">a_k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">&lt;==&gt;</span>  <span class="n">E</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">a_k</span><span class="p">)</span> <span class="o">=</span> <span class="n">m_k</span> <span class="n">E</span><span class="p">(</span><span class="n">a_k</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">sum_</span><span class="p">{</span><span class="n">j</span><span class="o">&lt;&gt;</span><span class="n">k</span><span class="p">}</span> <span class="n">m_k</span> <span class="n">E</span><span class="p">(</span><span class="n">a_j</span> <span class="n">a_k</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>E is expectation under weights w. And we can rewrite it as:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="n">x</span> <span class="n">m</span> <span class="o">=</span> <span class="n">ab</span> <span class="c1">## matrix multiplication</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">a_i</span> <span class="o">*</span> <span class="n">a_j</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ab</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span><span class="p">(</span><span class="n">a_j</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">a2</span><span class="o">.</span><span class="n">inverse</span> <span class="n">x</span> <span class="n">ab</span> <span class="c1">## matrix multiplication    </span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>simple fit</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">10000</span><span class="p">,</span><span class="mi">10</span><span class="p">)),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">9999</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">true_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">true_m</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">noise</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fitted_m</span> <span class="o">=</span> <span class="n">ewmGLM</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>    
 </pre></div>
 </div>
 </dd></dl>
@@ -3282,6 +3463,20 @@ See ewmvar documentation for more details</p>
 <code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmcor_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmcor_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equivalent to ewmcor but returns a state parameter for instantiation of later calculations.
 See ewmcor documentation for more details</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyg.timeseries._ewm.ewmLR_">
+<code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmLR_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">c</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">m</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmLR_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to ewmcor but returns a state parameter for instantiation of later calculations.
+See ewmcor documentation for more details</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyg.timeseries._ewm.ewmGLM_">
+<code class="sig-prename descclassname">pyg.timeseries._ewm.</code><code class="sig-name descname">ewmGLM_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_sample</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">bias</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">instate</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.timeseries._ewm.ewmGLM_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to ewmGLM but returns a state parameter for instantiation of later calculations.
+See ewmGLM documentation for more details</p>
 </dd></dl>
 
 <dl class="py function">
@@ -3724,6 +3919,8 @@ presync allows easy presynching of all paramters of a function.</p>
 <li class="toctree-l3"><a class="reference internal" href="#ewmstd">ewmstd</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ewmvar">ewmvar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ewmcor">ewmcor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ewmlr">ewmLR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ewmglm">ewmGLM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ewmskew">ewmskew</a></li>
 </ul>
 </li>
