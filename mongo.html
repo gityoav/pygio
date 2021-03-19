@@ -917,16 +917,45 @@ We use this to implement save/load for the cell.</p>
 </div>
 <dl class="py method">
 <dt id="pyg.mongo._db_cell.db_cell.load">
-<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">keys</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.mongo._db_cell.db_cell.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>loads a document from the database and updates various keys</p>
-<dl class="simple">
-<dt>mode<span class="classifier">int , optional</span></dt><dd><p>if -1, then does not load and skips this function
-if 0, then will load if found. If not found, will return original document
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.mongo._db_cell.db_cell.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>loads a document from the database and updates various keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Persistency</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Since we want to avoid hitting the database, there is a singleton GRAPH, a dict, storing the cells by their address.
+Every time we load/save from/to Mongo, we also update GRAPH.</p>
+<p>We use the GRAPH often so if you want to FORCE the cell to go to the database when loading, use this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># clear GRAPH and load from db</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cell</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>     <span class="c1"># same thing: clear GRAPH and then load if available</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Merge of cached cell and calling cell</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Once we load from memory (either MongoDB or GRAPH), we tree_update the cached cell with the new values in the current cell.
+This means that it is next to impossible to actually <em>delete</em> keys. If you want to delete keys in a cell/cells in the database, you need to:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">db</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="n">filters</span><span class="p">)[</span><span class="s1">&#39;key.subkey&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<dl>
+<dt>mode<span class="classifier">int , dataetime, optional</span></dt><dd><p>if -1, then does not load and clears the GRAPH
+if 0, then will load from database if found. If not found, will return original document
 if 1, then will throw an exception if no document is found in the database
+if mode is a date, will return the version alive at that date 
 The default is 0.</p>
+<p>IF you enclose any of these in a list, then GRAPH is cleared prior to running and the database is called.</p>
 </dd>
-<dt>keys<span class="classifier">str/list of str/True, optional</span></dt><dd><p>determines which additional keys (other than output) are loaded onto the existing cell from the saved one. output keys are always loaded.</p>
-</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p></dd>
 </dl>
 <p>document</p>
 </dd></dl>
@@ -977,7 +1006,7 @@ Its calculation schedule depends on when it was last updated.</p>
 </div>
 <dl class="py method">
 <dt id="pyg.mongo._periodic_cell.periodic_cell.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.mongo._periodic_cell.periodic_cell.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyg.mongo._periodic_cell.periodic_cell.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>checks if the cell needs calculation. This depends on the nature of the cell. 
 By default (for cell and db_cell), if the cell is already calculated so that cell._output exists, then returns False. otherwise True</p>
 <dl class="simple">

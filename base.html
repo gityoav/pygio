@@ -751,6 +751,17 @@ The interface is very succinct and allows the user to concentrate on logic of th
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>filtering on regex</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">dictable</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;once&#39;</span><span class="p">,</span> <span class="s1">&#39;upon&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;o&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">dictable</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;once&#39;</span><span class="p">,</span> <span class="s1">&#39;upon&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">d</span><span class="o">.</span><span class="n">exc</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="n">dictable</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;upon&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
 <dd class="field-odd"><p>filtering on callables</p>
 </dd>
 </dl>
@@ -1429,6 +1440,11 @@ You basically need to define the wrapped method and everything else is handled f
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>No recursion</p>
+</dd>
+</dl>
 <p>The decorator is designed to have a single instance of a specific wrapper</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">and_add</span><span class="p">(</span><span class="n">and_add</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="o">==</span> <span class="n">and_add</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -1441,6 +1457,11 @@ You basically need to define the wrapped method and everything else is handled f
 <span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;no can add&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>        
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p>wrapper vs wrapt</p>
+</dd>
+</dl>
 <p>wrapt (wrapt.readthedocs.io) is an awesome wrapping tool. If you have static library functions, none is better.
 The problem we face is that wrapt is too good in pretending the wrapped up object is the same as original function:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">wrapt</span>    
@@ -1712,7 +1733,7 @@ The nearest parallel is actually an Excel cell:</p>
 
 <dl class="py method">
 <dt id="pyg.base._cell.cell.go">
-<code class="sig-name descname">go</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">go</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.go" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">go</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">go</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell.go" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculates the cell (if needed). By default, will then run cell.save() to save the cell. 
 If you don’t want to save the output (perhaps you want to check it first), use cell._go()</p>
 <dl class="field-list simple">
@@ -1729,6 +1750,7 @@ go = -1: calculate the entire tree again.</p>
 <dt><a href="#id29"><span class="problematic" id="id30">**</span></a>kwargs<span class="classifier">parameters</span></dt><dd><p>You can actually allocate the variables to the function at runtime</p>
 </dd>
 </dl>
+<p>Note that by default, cell.go() will default to go = 1 and force a calculation on cell while cell() is lazy and will default to assuming go = 0</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p></p></dd>
@@ -1832,7 +1854,7 @@ By default (for cell and db_cell), if the cell is already calculated so that cel
 <h3>cell_go<a class="headerlink" href="#cell-go" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="pyg.base._cell.cell_go">
-<code class="sig-prename descclassname">pyg.base._cell.</code><code class="sig-name descname">cell_go</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">go</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell_go" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyg.base._cell.</code><code class="sig-name descname">cell_go</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">go</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyg.base._cell.cell_go" title="Permalink to this definition">¶</a></dt>
 <dd><p>cell_go makes a cell run (using cell.go(go)) and returns the calculated cell.
 If value is not a cell, value is returned.</p>
 <dl class="field-list simple">
