@@ -1,0 +1,2500 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pyg.base.cell &#8212; pyg 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyg.base.join" href="tutorial_perdictable.html" />
+    <link rel="prev" title="pyg.mongo" href="tutorial_mongo.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="pyg.base.cell">
+<h1>pyg.base.cell<a class="headerlink" href="#pyg.base.cell" title="Permalink to this headline">¶</a></h1>
+<p>cell is a dict that forms part of a calculation graph. Most usefully, db_cell is implemented to maintain persistency of the function output in MongoDB. Before we start, we will show a few examples of how a cell works. Then, we will build a toy example of trading stocks based on an exponentially weighted crossover.</p>
+<ul class="simple">
+<li><p>We will start by creating the system using pyg.base.dictable and pyg.timeseries.</p></li>
+<li><p>We then repeat the same code, this time modifying it slightly to save the data and calculation graph in MongoDB while running the calculation.</p></li>
+<li><p>We conclude by discussing the two approaches</p></li>
+</ul>
+<section id="Cell-101">
+<h2>Cell 101<a class="headerlink" href="#Cell-101" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span>  <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span>  <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">a</span><span class="p">)</span>
+<span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    2
+y:
+    cell
+    {&#39;x&#39;: 1, &#39;y&#39;: 2, &#39;function&#39;: &lt;function &lt;lambda&gt; at 0x000002A68A888940&gt;}
+function:
+    &lt;function &lt;lambda&gt; at 0x000002A68A888700&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">b</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="c1">## b is a dict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;x&#39;, &#39;y&#39;, &#39;function&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">b</span><span class="o">.</span><span class="n">_args</span> <span class="c1">## inputs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;x&#39;, &#39;y&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">b</span><span class="o">.</span><span class="n">_output</span> <span class="c1">## where the output will go once we calculate it</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;data&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1">## b has not calculated yet... please run it</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">b</span><span class="p">()</span> <span class="c1"># calculated object note b().data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    2
+y:
+    cell
+    x:
+        1
+    y:
+        2
+    function:
+        &lt;function &lt;lambda&gt; at 0x000002A68A888940&gt;
+    data:
+        3
+function:
+    &lt;function &lt;lambda&gt; at 0x000002A68A888700&gt;
+data:
+    6
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">b</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1">## b has calculated now... no need to run it</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cell</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">**</span> <span class="n">y</span><span class="p">)(</span><span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># you can define the cell and then call it with the values</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+function:
+    &lt;function &lt;lambda&gt; at 0x000002A68E0EF0D0&gt;
+x:
+    cell
+    x:
+        1
+    y:
+        2
+    function:
+        &lt;function &lt;lambda&gt; at 0x000002A68A888940&gt;
+    data:
+        3
+y:
+    2
+data:
+    9
+</pre></div></div>
+</div>
+</section>
+<section id="Workflow-without-saving-to-the-database">
+<h2>Workflow without saving to the database<a class="headerlink" href="#Workflow-without-saving-to-the-database" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="nn">yf</span> <span class="c1"># see https://github.com/ranaroussi/yfinance</span>
+<span class="n">constituents</span> <span class="o">=</span> <span class="n">dictable</span><span class="p">(</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;d:/dropbox/yoav/python/pyg/docs/constituents_csv.csv&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">lower</span><span class="p">)</span> <span class="c1"># downloaded from &lt;https://datahub.io/core/s-and-p-500-companies#resource-constituents&gt;</span>
+<span class="n">constituents</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dictable[505 x 3]
+symbol|name                  |sector
+MMM   |3M Company            |Industrials
+AOS   |A.O. Smith Corp       |Industrials
+ABT   |Abbott Laboratories   |Health Care
+...505 rows...
+ZBH   |Zimmer Biomet Holdings|Health Care
+ZION  |Zions Bancorp         |Financials
+ZTS   |Zoetis                |Health Care
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">constituents</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="n">sector</span> <span class="o">=</span> <span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">stocks</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dictable[26 x 3]
+name              |sector|symbol
+Apache Corporation|Energy|APA
+Baker Hughes Co   |Energy|BKR
+Cabot Oil &amp; Gas   |Energy|COG
+...26 rows...
+TechnipFMC        |Energy|FTI
+Valero Energy     |Energy|VLO
+Williams Companies|Energy|WMB
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">history</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">sector</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">tickers</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+
+1 Failed download:
+- NBL: No data found, symbol may be delisted
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">history</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">adj</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">history</span><span class="p">:</span> <span class="n">getitem</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">history</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Adj Close&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">rtn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">adj</span><span class="p">:</span> <span class="n">diff</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">adj</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">vol</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span><span class="p">:</span> <span class="n">ewmstd</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">_data</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+<span class="k">def</span> <span class="nf">crossover_</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span><span class="p">,</span> <span class="n">vol</span><span class="p">,</span> <span class="n">instate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">fast</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">slow</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">vol</span> <span class="o">=</span> <span class="p">{})</span> <span class="k">if</span> <span class="n">instate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">instate</span>
+    <span class="n">fast_ewma_</span> <span class="o">=</span> <span class="n">ewma_</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">instate</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">fast</span><span class="p">)</span>
+    <span class="n">slow_ewma_</span> <span class="o">=</span> <span class="n">ewma_</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">slow</span><span class="p">,</span> <span class="n">instate</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">slow</span><span class="p">)</span>
+    <span class="n">raw_signal</span> <span class="o">=</span> <span class="n">fast_ewma_</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">slow_ewma_</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">signal_rms</span> <span class="o">=</span> <span class="n">ewmrms_</span><span class="p">(</span><span class="n">raw_signal</span><span class="p">,</span> <span class="n">vol</span><span class="p">,</span> <span class="n">instate</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">raw_signal</span><span class="o">/</span><span class="n">v2na</span><span class="p">(</span><span class="n">signal_rms</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Dict</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">normalized</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">(</span><span class="n">fast</span> <span class="o">=</span> <span class="n">fast_ewma_</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">slow</span> <span class="o">=</span> <span class="n">slow_ewma_</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="n">signal_rms</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+
+<span class="n">crossover_</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">crossover</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span><span class="p">,</span> <span class="n">vol</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">crossover_</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span><span class="p">,</span> <span class="n">vol</span><span class="p">,</span> <span class="n">instate</span> <span class="o">=</span> <span class="n">state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="some-more-functions-to-calculate-the-profits-&amp;-loss-as-well-as-the-signal/noise-ratio">
+<h3>some more functions to calculate the profits &amp; loss as well as the signal/noise ratio<a class="headerlink" href="#some-more-functions-to-calculate-the-profits-&-loss-as-well-as-the-signal/noise-ratio" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">signal_pnl</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">vol</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">shift</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rtn</span><span class="o">/</span><span class="n">vol</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">information_ratio</span><span class="p">(</span><span class="n">pnl</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">16</span> <span class="o">*</span> <span class="n">ts_mean</span><span class="p">(</span><span class="n">pnl</span><span class="p">)</span> <span class="o">/</span> <span class="n">ts_std</span><span class="p">(</span><span class="n">pnl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">stocks</span> <span class="o">*</span> <span class="n">dictable</span><span class="p">(</span><span class="n">fast</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="n">slow</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">24</span><span class="p">],</span> <span class="n">forecast</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;slow&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">signal</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span><span class="p">:</span> <span class="n">crossover_</span><span class="p">(</span><span class="n">rtn</span><span class="p">,</span> <span class="n">fast</span> <span class="o">=</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span> <span class="o">=</span> <span class="n">slow</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">pnl</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">signal</span><span class="p">,</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">vol</span><span class="p">:</span> <span class="n">signal_pnl</span><span class="p">(</span><span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="p">,</span> <span class="n">rtn</span> <span class="o">=</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="n">vol</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">ir</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">pnl</span><span class="p">:</span> <span class="n">information_ratio</span><span class="p">(</span><span class="n">pnl</span> <span class="o">=</span> <span class="n">pnl</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">forecasts</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s1">&#39;symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;forecast&#39;</span><span class="p">,</span> <span class="s1">&#39;ir&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">last</span><span class="p">,</span> <span class="n">f12</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+symbol|fast |medium|slow
+APA   |0.13 |-0.03 |-0.10
+BKR   |0.06 |-0.10 |-0.14
+COG   |0.20 |0.12  |-0.02
+COP   |-0.14|-0.17 |-0.18
+CVX   |0.47 |0.30  |0.11
+CXO   |0.01 |-0.14 |-0.34
+DVN   |0.15 |0.15  |0.17
+EOG   |0.16 |0.05  |-0.03
+FANG  |0.00 |-0.06 |-0.18
+FTI   |-0.18|-0.37 |-0.37
+HAL   |0.73 |0.47  |0.29
+HES   |0.16 |0.03  |0.00
+HFC   |0.86 |0.80  |0.71
+KMI   |0.45 |0.13  |0.03
+MPC   |0.21 |0.45  |0.72
+MRO   |0.24 |0.16  |0.14
+NOV   |0.10 |-0.04 |-0.04
+OKE   |-0.22|-0.15 |-0.06
+OXY   |-0.23|-0.29 |-0.22
+PSX   |-0.02|0.11  |0.42
+PXD   |0.22 |0.17  |0.23
+SLB   |-0.08|-0.25 |-0.33
+VLO   |0.30 |0.29  |0.41
+WMB   |0.17 |-0.08 |-0.22
+XOM   |-0.03|-0.28 |-0.43
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Workflow-while-saving-to-MongoDB">
+<h2>Workflow while saving to MongoDB<a class="headerlink" href="#Workflow-while-saving-to-MongoDB" title="Permalink to this headline">¶</a></h2>
+<section id="Table-creation">
+<h3>Table creation<a class="headerlink" href="#Table-creation" title="Permalink to this headline">¶</a></h3>
+<p>We create three tables dependending on the primary keys we will be using.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">idb</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="s1">&#39;item&#39;</span><span class="p">)</span>
+<span class="n">sdb</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;stock&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;symbol&#39;</span><span class="p">])</span>
+<span class="n">fdb</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;forecast&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;forecast&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">idb</span><span class="p">()</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">Dict</span><span class="p">(</span><span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">constituents</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ObjectId(&#39;602a566073531499b3861809&#39;)
+</pre></div></div>
+</div>
+</section>
+<section id="Any-code-differences?">
+<h3>Any code differences?<a class="headerlink" href="#Any-code-differences?" title="Permalink to this headline">¶</a></h3>
+<p>Most of the code remains the same as above, except:</p>
+<ul class="simple">
+<li><p>We wrap it inside a periodic_cell so it is calculated daily</p></li>
+<li><p>We add reference to where we want to store it in MongoDB by specifying the db as well as the primary keys of that table</p></li>
+<li><p>To run the function, we need to call the cell. This: loads the cell from the database (if found), checking if it even needs running and if so, runs it.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">history</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">sector</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">,</span> <span class="n">tickers</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span>      <span class="c1"># these are the inputs for the function</span>
+                                            <span class="n">db</span> <span class="o">=</span> <span class="n">sdb</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;history&#39;</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">)())</span>              <span class="c1"># these define where the data goes to</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:31,197 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;APA&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:34,627 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;BKR&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:35,356 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;COG&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:36,122 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;CVX&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:38,242 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;CXO&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:38,754 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;COP&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:39,444 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;DVN&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:40,591 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;FANG&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:40,978 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;EOG&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:41,557 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;XOM&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:44,056 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;HAL&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:45,237 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;HES&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:46,323 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;HFC&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:47,026 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;KMI&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:48,145 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;MRO&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:50,428 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;MPC&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:51,781 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;NOV&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:52,541 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;OXY&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:54,166 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;OKE&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:55,333 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;PSX&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:55,735 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;PXD&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:56,563 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;SLB&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:58,319 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;FTI&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:58,844 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;VLO&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 19:59:59,789 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;history&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[*********************100%***********************]  1 of 1 completed
+</pre></div></div>
+</div>
+</section>
+<section id="Accessing-the-data-in-MongoDB">
+<h3>Accessing the data in MongoDB<a class="headerlink" href="#Accessing-the-data-in-MongoDB" title="Permalink to this headline">¶</a></h3>
+<p>The data is now in the database and can be accessed:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;stock&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="s1">&#39;MMM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Adj Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1970-01-02</th>
+      <td>6.851563</td>
+      <td>6.890625</td>
+      <td>6.843750</td>
+      <td>6.851563</td>
+      <td>1.471232</td>
+      <td>72000</td>
+    </tr>
+    <tr>
+      <th>1970-01-05</th>
+      <td>6.859375</td>
+      <td>6.898438</td>
+      <td>6.859375</td>
+      <td>6.890625</td>
+      <td>1.479620</td>
+      <td>446400</td>
+    </tr>
+    <tr>
+      <th>1970-01-06</th>
+      <td>6.890625</td>
+      <td>6.960938</td>
+      <td>6.882813</td>
+      <td>6.960938</td>
+      <td>1.494717</td>
+      <td>176000</td>
+    </tr>
+    <tr>
+      <th>1970-01-07</th>
+      <td>6.960938</td>
+      <td>7.015625</td>
+      <td>6.945313</td>
+      <td>7.000000</td>
+      <td>1.503106</td>
+      <td>164800</td>
+    </tr>
+    <tr>
+      <th>1970-01-08</th>
+      <td>7.000000</td>
+      <td>7.109375</td>
+      <td>6.984375</td>
+      <td>7.093750</td>
+      <td>1.523237</td>
+      <td>304000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2021-02-08</th>
+      <td>179.300003</td>
+      <td>180.869995</td>
+      <td>179.169998</td>
+      <td>180.759995</td>
+      <td>179.282608</td>
+      <td>2355100</td>
+    </tr>
+    <tr>
+      <th>2021-02-09</th>
+      <td>181.220001</td>
+      <td>181.899994</td>
+      <td>180.179993</td>
+      <td>180.940002</td>
+      <td>179.461151</td>
+      <td>1942800</td>
+    </tr>
+    <tr>
+      <th>2021-02-10</th>
+      <td>181.880005</td>
+      <td>182.380005</td>
+      <td>180.639999</td>
+      <td>181.080002</td>
+      <td>179.600006</td>
+      <td>1929000</td>
+    </tr>
+    <tr>
+      <th>2021-02-11</th>
+      <td>179.350006</td>
+      <td>179.880005</td>
+      <td>175.839996</td>
+      <td>177.210007</td>
+      <td>177.210007</td>
+      <td>2187100</td>
+    </tr>
+    <tr>
+      <th>2021-02-12</th>
+      <td>177.270004</td>
+      <td>178.839996</td>
+      <td>177.210007</td>
+      <td>178.699997</td>
+      <td>178.699997</td>
+      <td>1081500</td>
+    </tr>
+  </tbody>
+</table>
+<p>12895 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">history</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">adj</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">history</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">getitem</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">history</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Adj Close&#39;</span><span class="p">,</span>
+                                                            <span class="n">db</span> <span class="o">=</span> <span class="n">sdb</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;adj&#39;</span><span class="p">)())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 20:00:02,042 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;APA&#39;))
+2021-03-06 20:00:03,128 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;BKR&#39;))
+2021-03-06 20:00:03,468 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;COG&#39;))
+2021-03-06 20:00:03,773 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;CVX&#39;))
+2021-03-06 20:00:04,094 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;CXO&#39;))
+2021-03-06 20:00:04,340 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;COP&#39;))
+2021-03-06 20:00:04,633 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;DVN&#39;))
+2021-03-06 20:00:04,936 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;FANG&#39;))
+2021-03-06 20:00:05,160 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;EOG&#39;))
+2021-03-06 20:00:05,518 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;XOM&#39;))
+2021-03-06 20:00:05,860 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;HAL&#39;))
+2021-03-06 20:00:06,272 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;HES&#39;))
+2021-03-06 20:00:06,881 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;HFC&#39;))
+2021-03-06 20:00:07,289 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;KMI&#39;))
+2021-03-06 20:00:07,601 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;MRO&#39;))
+2021-03-06 20:00:07,905 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;MPC&#39;))
+2021-03-06 20:00:08,608 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;NOV&#39;))
+2021-03-06 20:00:09,233 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;OXY&#39;))
+2021-03-06 20:00:09,762 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;OKE&#39;))
+2021-03-06 20:00:10,238 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;PSX&#39;))
+2021-03-06 20:00:11,431 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;PXD&#39;))
+2021-03-06 20:00:13,090 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;SLB&#39;))
+2021-03-06 20:00:14,979 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;FTI&#39;))
+2021-03-06 20:00:15,767 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;VLO&#39;))
+2021-03-06 20:00:16,145 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;adj&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">rtn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">adj</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">adj</span><span class="p">,</span>
+                                                        <span class="n">db</span> <span class="o">=</span> <span class="n">sdb</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;rtn&#39;</span><span class="p">)())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 20:00:16,480 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;APA&#39;))
+2021-03-06 20:00:16,930 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;BKR&#39;))
+2021-03-06 20:00:17,348 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;COG&#39;))
+2021-03-06 20:00:17,656 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;CVX&#39;))
+2021-03-06 20:00:18,515 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;CXO&#39;))
+2021-03-06 20:00:18,816 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;COP&#39;))
+2021-03-06 20:00:19,750 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;DVN&#39;))
+2021-03-06 20:00:20,084 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;FANG&#39;))
+2021-03-06 20:00:20,322 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;EOG&#39;))
+2021-03-06 20:00:20,813 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;XOM&#39;))
+2021-03-06 20:00:21,168 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;HAL&#39;))
+2021-03-06 20:00:21,636 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;HES&#39;))
+2021-03-06 20:00:22,050 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;HFC&#39;))
+2021-03-06 20:00:22,342 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;KMI&#39;))
+2021-03-06 20:00:22,764 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;MRO&#39;))
+2021-03-06 20:00:23,127 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;MPC&#39;))
+2021-03-06 20:00:23,383 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;NOV&#39;))
+2021-03-06 20:00:23,681 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;OXY&#39;))
+2021-03-06 20:00:23,978 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;OKE&#39;))
+2021-03-06 20:00:24,327 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;PSX&#39;))
+2021-03-06 20:00:24,580 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;PXD&#39;))
+2021-03-06 20:00:24,850 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;SLB&#39;))
+2021-03-06 20:00:25,313 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;FTI&#39;))
+2021-03-06 20:00:25,611 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;VLO&#39;))
+2021-03-06 20:00:25,938 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;rtn&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">(</span><span class="n">vol</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">ewmstd</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span>  <span class="mi">30</span><span class="p">,</span>
+                                                        <span class="n">db</span> <span class="o">=</span> <span class="n">sdb</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;vol&#39;</span><span class="p">)())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 20:00:26,300 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;APA&#39;))
+2021-03-06 20:00:26,595 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;BKR&#39;))
+2021-03-06 20:00:26,844 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;COG&#39;))
+2021-03-06 20:00:27,498 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;CVX&#39;))
+2021-03-06 20:00:28,895 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;CXO&#39;))
+2021-03-06 20:00:29,513 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;COP&#39;))
+2021-03-06 20:00:30,345 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;DVN&#39;))
+2021-03-06 20:00:31,002 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;FANG&#39;))
+2021-03-06 20:00:31,378 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;EOG&#39;))
+2021-03-06 20:00:31,711 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;XOM&#39;))
+2021-03-06 20:00:34,153 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;HAL&#39;))
+2021-03-06 20:00:35,635 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;HES&#39;))
+2021-03-06 20:00:36,165 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;HFC&#39;))
+2021-03-06 20:00:36,492 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;KMI&#39;))
+2021-03-06 20:00:37,163 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;MRO&#39;))
+2021-03-06 20:00:37,823 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;MPC&#39;))
+2021-03-06 20:00:38,481 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;NOV&#39;))
+2021-03-06 20:00:39,119 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;OXY&#39;))
+2021-03-06 20:00:39,425 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;OKE&#39;))
+2021-03-06 20:00:39,705 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;PSX&#39;))
+2021-03-06 20:00:40,127 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;PXD&#39;))
+2021-03-06 20:00:40,378 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;SLB&#39;))
+2021-03-06 20:00:40,631 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;FTI&#39;))
+2021-03-06 20:00:41,056 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;VLO&#39;))
+2021-03-06 20:00:41,304 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;stock&#39;, (&#39;item&#39;, &#39;symbol&#39;), (&#39;vol&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+</section>
+<section id="Calculating-the-forecasts-&amp;-saving-them">
+<h3>Calculating the forecasts &amp; saving them<a class="headerlink" href="#Calculating-the-forecasts-&-saving-them" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">stocks</span> <span class="o">*</span> <span class="n">dictable</span><span class="p">(</span><span class="n">fast</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="n">slow</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">24</span><span class="p">],</span> <span class="n">forecast</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">,</span> <span class="s1">&#39;slow&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">signal</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">forecast</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">crossover_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">fast</span> <span class="o">=</span> <span class="n">fast</span><span class="p">,</span> <span class="n">slow</span> <span class="o">=</span> <span class="n">slow</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+                                            <span class="n">db</span> <span class="o">=</span> <span class="n">fdb</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">forecast</span> <span class="o">=</span> <span class="n">forecast</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;signal&#39;</span><span class="p">)())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 20:04:15,290 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;APA&#39;))
+2021-03-06 20:04:52,869 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;APA&#39;))
+2021-03-06 20:04:53,186 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;APA&#39;))
+2021-03-06 20:04:53,434 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;BKR&#39;))
+2021-03-06 20:04:53,681 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;BKR&#39;))
+2021-03-06 20:04:53,913 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;BKR&#39;))
+2021-03-06 20:04:54,203 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;COG&#39;))
+2021-03-06 20:04:56,089 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;COG&#39;))
+2021-03-06 20:04:56,727 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;COG&#39;))
+2021-03-06 20:04:57,250 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;CVX&#39;))
+2021-03-06 20:04:58,763 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;CVX&#39;))
+2021-03-06 20:04:59,116 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;CVX&#39;))
+2021-03-06 20:04:59,518 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;CXO&#39;))
+2021-03-06 20:05:00,010 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;CXO&#39;))
+2021-03-06 20:05:00,371 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;CXO&#39;))
+2021-03-06 20:05:00,771 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;COP&#39;))
+2021-03-06 20:05:01,088 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;COP&#39;))
+2021-03-06 20:05:01,374 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;COP&#39;))
+2021-03-06 20:05:01,673 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;DVN&#39;))
+2021-03-06 20:05:01,948 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;DVN&#39;))
+2021-03-06 20:05:02,256 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;DVN&#39;))
+2021-03-06 20:05:02,500 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;FANG&#39;))
+2021-03-06 20:05:02,708 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;FANG&#39;))
+2021-03-06 20:05:02,927 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;FANG&#39;))
+2021-03-06 20:05:03,134 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;EOG&#39;))
+2021-03-06 20:05:03,417 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;EOG&#39;))
+2021-03-06 20:05:03,671 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;EOG&#39;))
+2021-03-06 20:05:03,898 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;XOM&#39;))
+2021-03-06 20:05:04,224 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;XOM&#39;))
+2021-03-06 20:05:04,485 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;XOM&#39;))
+2021-03-06 20:05:04,701 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;HAL&#39;))
+2021-03-06 20:05:05,394 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;HAL&#39;))
+2021-03-06 20:05:05,652 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;HAL&#39;))
+2021-03-06 20:05:05,902 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;HES&#39;))
+2021-03-06 20:05:06,130 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;HES&#39;))
+2021-03-06 20:05:06,390 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;HES&#39;))
+2021-03-06 20:05:06,616 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;HFC&#39;))
+2021-03-06 20:05:06,883 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;HFC&#39;))
+2021-03-06 20:05:07,099 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;HFC&#39;))
+2021-03-06 20:05:07,321 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;KMI&#39;))
+2021-03-06 20:05:07,512 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;KMI&#39;))
+2021-03-06 20:05:07,718 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;KMI&#39;))
+2021-03-06 20:05:07,941 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;MRO&#39;))
+2021-03-06 20:05:08,197 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;MRO&#39;))
+2021-03-06 20:05:08,458 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;MRO&#39;))
+2021-03-06 20:05:08,687 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;MPC&#39;))
+2021-03-06 20:05:08,905 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;MPC&#39;))
+2021-03-06 20:05:09,129 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;MPC&#39;))
+2021-03-06 20:05:09,348 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;NOV&#39;))
+2021-03-06 20:05:09,620 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;NOV&#39;))
+2021-03-06 20:05:09,845 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;NOV&#39;))
+2021-03-06 20:05:10,052 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;OXY&#39;))
+2021-03-06 20:05:10,383 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;OXY&#39;))
+2021-03-06 20:05:10,705 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;OXY&#39;))
+2021-03-06 20:05:10,958 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;OKE&#39;))
+2021-03-06 20:05:11,232 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;OKE&#39;))
+2021-03-06 20:05:11,475 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;OKE&#39;))
+2021-03-06 20:05:11,715 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;PSX&#39;))
+2021-03-06 20:05:11,997 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;PSX&#39;))
+2021-03-06 20:05:12,207 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;PSX&#39;))
+2021-03-06 20:05:12,414 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;PXD&#39;))
+2021-03-06 20:05:12,669 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;PXD&#39;))
+2021-03-06 20:05:12,901 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;PXD&#39;))
+2021-03-06 20:05:13,128 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;SLB&#39;))
+2021-03-06 20:05:13,751 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;SLB&#39;))
+2021-03-06 20:05:13,985 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;SLB&#39;))
+2021-03-06 20:05:14,230 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;FTI&#39;))
+2021-03-06 20:05:14,503 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;FTI&#39;))
+2021-03-06 20:05:14,775 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;FTI&#39;))
+2021-03-06 20:05:15,037 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;VLO&#39;))
+2021-03-06 20:05:15,346 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;VLO&#39;))
+2021-03-06 20:05:15,578 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;VLO&#39;))
+2021-03-06 20:05:15,814 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;signal&#39;, &#39;WMB&#39;))
+2021-03-06 20:05:16,067 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;signal&#39;, &#39;WMB&#39;))
+2021-03-06 20:05:16,283 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;signal&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">pnl</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">signal</span><span class="p">,</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">vol</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">forecast</span><span class="p">:</span> <span class="n">periodic_cell</span><span class="p">(</span><span class="n">signal_pnl</span><span class="p">,</span> <span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="p">,</span> <span class="n">rtn</span> <span class="o">=</span> <span class="n">rtn</span><span class="p">,</span> <span class="n">vol</span> <span class="o">=</span> <span class="n">vol</span><span class="p">,</span>
+                                                        <span class="n">db</span> <span class="o">=</span> <span class="n">fdb</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">forecast</span> <span class="o">=</span> <span class="n">forecast</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;pnl&#39;</span><span class="p">)())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-06 20:07:41,567 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;APA&#39;))
+2021-03-06 20:09:01,609 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;APA&#39;))
+2021-03-06 20:09:02,368 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;APA&#39;))
+2021-03-06 20:09:03,885 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;BKR&#39;))
+2021-03-06 20:09:04,804 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;BKR&#39;))
+2021-03-06 20:09:05,484 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;BKR&#39;))
+2021-03-06 20:09:06,030 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;COG&#39;))
+2021-03-06 20:09:06,627 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;COG&#39;))
+2021-03-06 20:09:07,453 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;COG&#39;))
+2021-03-06 20:09:08,153 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;CVX&#39;))
+2021-03-06 20:09:09,125 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;CVX&#39;))
+2021-03-06 20:09:09,730 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;CVX&#39;))
+2021-03-06 20:09:10,582 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;CXO&#39;))
+2021-03-06 20:09:11,216 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;CXO&#39;))
+2021-03-06 20:09:11,904 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;CXO&#39;))
+2021-03-06 20:09:12,350 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;COP&#39;))
+2021-03-06 20:09:13,415 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;COP&#39;))
+2021-03-06 20:09:14,255 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;COP&#39;))
+2021-03-06 20:09:15,747 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;DVN&#39;))
+2021-03-06 20:09:16,408 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;DVN&#39;))
+2021-03-06 20:09:17,055 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;DVN&#39;))
+2021-03-06 20:09:17,802 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;FANG&#39;))
+2021-03-06 20:09:18,207 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;FANG&#39;))
+2021-03-06 20:09:18,601 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;FANG&#39;))
+2021-03-06 20:09:20,074 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;EOG&#39;))
+2021-03-06 20:09:20,820 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;EOG&#39;))
+2021-03-06 20:09:21,605 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;EOG&#39;))
+2021-03-06 20:09:23,377 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;XOM&#39;))
+2021-03-06 20:09:25,407 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;XOM&#39;))
+2021-03-06 20:09:27,902 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;XOM&#39;))
+2021-03-06 20:09:29,626 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;HAL&#39;))
+2021-03-06 20:09:31,617 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;HAL&#39;))
+2021-03-06 20:09:32,908 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;HAL&#39;))
+2021-03-06 20:09:34,001 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;HES&#39;))
+2021-03-06 20:09:35,216 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;HES&#39;))
+2021-03-06 20:09:35,767 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;HES&#39;))
+2021-03-06 20:09:36,840 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;HFC&#39;))
+2021-03-06 20:09:38,454 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;HFC&#39;))
+2021-03-06 20:09:38,896 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;HFC&#39;))
+2021-03-06 20:09:39,445 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;KMI&#39;))
+2021-03-06 20:09:40,384 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;KMI&#39;))
+2021-03-06 20:09:40,983 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;KMI&#39;))
+2021-03-06 20:09:41,528 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;MRO&#39;))
+2021-03-06 20:09:43,164 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;MRO&#39;))
+2021-03-06 20:09:44,007 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;MRO&#39;))
+2021-03-06 20:09:44,933 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;MPC&#39;))
+2021-03-06 20:09:45,778 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;MPC&#39;))
+2021-03-06 20:09:46,376 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;MPC&#39;))
+2021-03-06 20:09:46,926 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;NOV&#39;))
+2021-03-06 20:09:47,990 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;NOV&#39;))
+2021-03-06 20:09:48,697 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;NOV&#39;))
+2021-03-06 20:09:49,380 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;OXY&#39;))
+2021-03-06 20:09:50,123 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;OXY&#39;))
+2021-03-06 20:09:51,039 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;OXY&#39;))
+2021-03-06 20:09:52,698 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;OKE&#39;))
+2021-03-06 20:09:54,721 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;OKE&#39;))
+2021-03-06 20:09:55,441 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;OKE&#39;))
+2021-03-06 20:09:56,279 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;PSX&#39;))
+2021-03-06 20:09:56,974 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;PSX&#39;))
+2021-03-06 20:09:57,510 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;PSX&#39;))
+2021-03-06 20:09:57,980 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;PXD&#39;))
+2021-03-06 20:09:58,568 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;PXD&#39;))
+2021-03-06 20:09:59,271 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;PXD&#39;))
+2021-03-06 20:10:00,220 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;SLB&#39;))
+2021-03-06 20:10:02,318 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;SLB&#39;))
+2021-03-06 20:10:03,380 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;SLB&#39;))
+2021-03-06 20:10:04,161 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;FTI&#39;))
+2021-03-06 20:10:04,744 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;FTI&#39;))
+2021-03-06 20:10:05,535 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;FTI&#39;))
+2021-03-06 20:10:06,195 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;VLO&#39;))
+2021-03-06 20:10:07,851 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;VLO&#39;))
+2021-03-06 20:10:09,025 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;VLO&#39;))
+2021-03-06 20:10:10,054 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;fast&#39;, &#39;pnl&#39;, &#39;WMB&#39;))
+2021-03-06 20:10:11,128 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;medium&#39;, &#39;pnl&#39;, &#39;WMB&#39;))
+2021-03-06 20:10:11,790 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;forecast&#39;, (&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;), (&#39;slow&#39;, &#39;pnl&#39;, &#39;WMB&#39;))
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecasts</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">(</span><span class="n">ir</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">pnl</span><span class="p">:</span> <span class="n">information_ratio</span><span class="p">(</span><span class="n">pnl</span> <span class="o">=</span> <span class="n">pnl</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">forecasts</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s1">&#39;symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;forecast&#39;</span><span class="p">,</span> <span class="s1">&#39;ir&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">last</span><span class="p">,</span> <span class="n">f12</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+symbol|fast |medium|slow
+APA   |0.13 |-0.03 |-0.10
+BKR   |0.06 |-0.10 |-0.14
+COG   |0.20 |0.12  |-0.02
+COP   |-0.14|-0.17 |-0.18
+CVX   |0.47 |0.30  |0.11
+CXO   |0.01 |-0.14 |-0.34
+DVN   |0.15 |0.15  |0.17
+EOG   |0.16 |0.05  |-0.03
+FANG  |0.00 |-0.06 |-0.18
+FTI   |-0.18|-0.37 |-0.37
+HAL   |0.73 |0.47  |0.29
+HES   |0.16 |0.03  |0.00
+HFC   |0.86 |0.80  |0.71
+KMI   |0.45 |0.13  |0.03
+MPC   |0.21 |0.45  |0.72
+MRO   |0.24 |0.16  |0.14
+NOV   |0.10 |-0.04 |-0.04
+OKE   |-0.22|-0.15 |-0.06
+OXY   |-0.23|-0.29 |-0.22
+PSX   |-0.02|0.11  |0.42
+PXD   |0.22 |0.17  |0.23
+SLB   |-0.08|-0.25 |-0.33
+VLO   |0.30 |0.29  |0.41
+WMB   |0.17 |-0.08 |-0.22
+XOM   |-0.03|-0.28 |-0.43
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Accessing-&amp;-running-the-graph-once-the-graph-has-been-created">
+<h2>Accessing &amp; running the graph once the graph has been created<a class="headerlink" href="#Accessing-&-running-the-graph-once-the-graph-has-been-created" title="Permalink to this headline">¶</a></h2>
+<p>We can access the data or the cell:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">get_cell</span><span class="p">(</span><span class="s1">&#39;forecast&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="s1">&#39;APA&#39;</span><span class="p">,</span> <span class="n">forecast</span> <span class="o">=</span> <span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;signal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+periodic_cell
+updated:
+    2021-03-06 20:04:51.410000
+_period:
+    1b
+db:
+    functools.partial(&lt;function mongo_table at 0x000002A68D03BCA0&gt;, db=&#39;demo&#39;, table=&#39;forecast&#39;, pk=[&#39;item&#39;, &#39;symbol&#39;, &#39;forecast&#39;])
+_id:
+    602a86fb4de6ffaf1c045c8f
+_pk:
+    [&#39;forecast&#39;, &#39;item&#39;, &#39;symbol&#39;]
+a:
+    periodic_cell
+    updated:
+        None
+    _period:
+        1b
+    db:
+        functools.partial(&lt;function mongo_table at 0x000002A68D03BCA0&gt;, db=&#39;demo&#39;, table=&#39;stock&#39;, pk=[&#39;item&#39;, &#39;symbol&#39;])
+    item:
+        rtn
+    symbol:
+        APA
+    function:
+        None
+data:
+    Date
+    1979-05-15         NaN
+    1979-05-16         NaN
+    1979-05-17   -1.402762
+    1979-05-18   -0.939334
+    1979-05-21   -1.194304
+                    ...
+    2021-03-01   -1.018576
+    2021-03-02   -0.831244
+    2021-03-03   -0.187666
+    2021-03-04    0.972348
+    2021-03-05    2.674065
+    Length: 10543, dtype: float64
+fast:
+    2
+forecast:
+    fast
+instate:
+    None
+item:
+    signal
+slow:
+    6
+state:
+    Dict
+    fast:
+        Dict
+        state:
+            {&#39;t&#39;: nan, &#39;t0&#39;: 0.9999999999999999, &#39;t1&#39;: 0.46353936200681184}
+        t:
+            nan
+        t0:
+            0.9999999999999999
+        t1:
+            1.0413438705045697
+    slow:
+        Dict
+        state:
+            {&#39;t&#39;: nan, &#39;t0&#39;: 0.9999999999999997, &#39;t1&#39;: 0.2672723621042594}
+        t:
+            nan
+        t0:
+            0.9999999999999997
+        t1:
+            0.5552029895351339
+    vol:
+        Dict
+        state:
+            {&#39;t&#39;: nan, &#39;t0&#39;: 0.9999999999999983, &#39;t2&#39;: 0.02845240938173902}
+        t:
+            nan
+        t0:
+            0.9999999999999983
+        t2:
+            0.033050680992027265
+symbol:
+    APA
+vol:
+    30
+function:
+    &lt;function crossover_ at 0x000002A68E366C10&gt;
+</pre></div></div>
+</div>
+<p>And now that the graph has been created, you can actually trigger it just by loading. i.e. The code below will give you the fast signal for APA and will ensure it is up-to-date too:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">c</span> <span class="o">=</span> <span class="n">get_cell</span><span class="p">(</span><span class="s1">&#39;forecast&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">symbol</span> <span class="o">=</span> <span class="s1">&#39;APA&#39;</span><span class="p">,</span> <span class="n">forecast</span> <span class="o">=</span> <span class="s1">&#39;fast&#39;</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;signal&#39;</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">go</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Date
+1979-05-15         NaN
+1979-05-16         NaN
+1979-05-17   -1.402762
+1979-05-18   -0.939334
+1979-05-21   -1.194304
+                ...
+2021-03-01   -1.018576
+2021-03-02   -0.831244
+2021-03-03   -0.187666
+2021-03-04    0.972348
+2021-03-05    2.674065
+Length: 10543, dtype: float64
+</pre></div></div>
+</div>
+</section>
+<section id="Point-in-time,-cache-and-persistency">
+<h2>Point-in-time, cache and persistency<a class="headerlink" href="#Point-in-time,-cache-and-persistency" title="Permalink to this headline">¶</a></h2>
+<p>The pk-tables save a full history of all your data. To avoid hitting the database all the time, we also have a local GRAPH singleton that caches all the cells by their address. The cell has few basic operations we need to understand:</p>
+<ul class="simple">
+<li><p><strong>cell.run()</strong>: Returns True/False if the cell needs to be calculated. db_cell() just check for values in its output, periodic_cell will also check if it is a new business day.</p></li>
+<li><p><strong>cell.go()</strong>: This calculates the cell and saves the result to the database (and to GRAPH). The cell itself is not loaded but all its inputs are loaded</p>
+<ul>
+<li><p>cell.go(0) : calculate only if there is a need</p></li>
+<li><p>cell.go(1) : calculate me but my parents only if there is a need</p></li>
+<li><p>cell.go(2) : calculate me &amp; my parents but my grandparents only if there is a need</p></li>
+<li><p>cell.go(-1) : calculate everything</p></li>
+</ul>
+</li>
+<li><p><strong>cell.load()</strong>: This loads the data from GRAPH, if not in GRAPH, loads it from MongoDB (and updates also the GRAPH)</p>
+<ul>
+<li><p>cell.load(-1) : Clear the data from the GRAPH</p></li>
+<li><p>cell.load(0) : Load &amp; update me from GRAPH, if not, from MongoDB, if not, just return good old me</p></li>
+<li><p>cell.load(1) : If you cannot find me, throw an Exception</p></li>
+<li><p>cell.load(date) : Load my version as valid on date. If none exists, throw.</p></li>
+<li><p>cell.load([value]): Force GRAPH to clear, only load from DB. Same as cell.load(-1).load(value)</p></li>
+</ul>
+</li>
+<li><p><strong>cell()</strong>: This loads &amp; then go</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;persistency&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
+<span class="n">db</span><span class="p">()</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-19 08:42:10,778 - pyg - INFO - INFO: deleting 23 documents based on M{}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## now we set up a fake calculation tree:</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
+
+<span class="c1">## and run it by running the final value we want</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## we can access the data:</span>
+<span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;persistency&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">dt</span><span class="p">()</span>  <span class="c1">## first breakpoint</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">go</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span>  <span class="n">b</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">go</span><span class="p">()</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span>  <span class="n">b</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">go</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-19 08:43:07,223 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;x&#39;,))
+2021-03-19 08:43:07,317 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;y&#39;,))
+2021-03-19 08:43:07,547 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;z&#39;,))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## and here is the new data</span>
+<span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;persistency&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+30
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## and here is the data valid at our first breakpoint. get_data/get_cell always go to the database to load values</span>
+<span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;persistency&#39;</span><span class="p">,</span> <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">_deleted</span> <span class="o">=</span> <span class="n">t0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3
+</pre></div></div>
+</div>
+<p>We can ask a cell to load itself, but remember: it will go to GRAPH first by default. The GRAPH has only one copy of the cell, while in MongoDB, every time we recalculate/save a new version of the cell, we mark the old version in the database as “deleted” but otherwise keep it. To force a cell to load itself from the database, encase the breakpoint in a list…</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">db_cell</span><span class="p">(</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">t0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+db_cell
+db:
+    functools.partial(&lt;function mongo_table at 0x000001A9D35D43A0&gt;, db=&#39;demo&#39;, table=&#39;persistency&#39;, pk=&#39;key&#39;)
+_id:
+    60546402e49a0e77dca6dff3
+_pk:
+    [&#39;key&#39;]
+a:
+    1
+b:
+    2
+data:
+    3
+key:
+    x
+_deleted:
+    2021-03-19 08:42:42.668000
+function:
+    &lt;function f at 0x000001A9D5C4DDC0&gt;
+</pre></div></div>
+</div>
+<p>We can force a full recalculation of the tree in a single line of code:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">db_cell</span><span class="p">(</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;z&#39;</span><span class="p">)(</span><span class="n">go</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">])</span><span class="o">.</span><span class="n">data</span> <span class="c1">## Should be 8, same as the old value</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-19 08:58:39,317 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;z&#39;,))
+2021-03-19 08:58:39,946 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;x&#39;,))
+2021-03-19 08:58:40,087 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;y&#39;,))
+2021-03-19 08:58:40,213 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;demo&#39;, &#39;persistency&#39;, (&#39;key&#39;,), (&#39;x&#39;,))
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+8
+</pre></div></div>
+</div>
+</section>
+<section id="Comparison-of-the-two-workflows">
+<h2>Comparison of the two workflows<a class="headerlink" href="#Comparison-of-the-two-workflows" title="Permalink to this headline">¶</a></h2>
+<p>Saving to the database has negatives:</p>
+<ul class="simple">
+<li><p>does require some (but really not much) additional code to specify where each data item goes to</p></li>
+<li><p>slows down the calculation</p></li>
+</ul>
+<p>Conversely,</p>
+<ul class="simple">
+<li><p>We get full persistency: We can access each part of the graph with full visibility on the inputs, the function used to calculate the result, the function output(s), the location of where the data is stored and the time it was last updated as well as the periodicity it is calculated.</p></li>
+<li><p>We get full audit, past calculations remain available to track (and indeed, rerun) if anything goes wrong</p></li>
+<li><p>Each node will manage its schedule, ensuring data is up-to-date</p></li>
+<li><p>We can run just the parts of the graph we are interested in (and can run in parallel)</p></li>
+</ul>
+</section>
+<section id="To-save-or-not-to-save?">
+<h2>To save or not to save?<a class="headerlink" href="#To-save-or-not-to-save?" title="Permalink to this headline">¶</a></h2>
+<p>Luckily we don’t really need to decide on one workflow or the other as both can happily coexist. We can build a calculation graph and decide that some key points in the calculation we want to save while intermediate calculations we can calculate on the fly and not save at all. We have met the crossover function. Here we implement it ‘on the fly’ while saving just final value to db</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">fake_ts</span><span class="p">(</span><span class="n">ticker</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span> <span class="n">drange</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">mongo_table</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">pk</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
+<span class="n">db</span><span class="p">()</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:03,885 - pyg - INFO - INFO: deleting 7 documents based on M{}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pyg.mongo._cursor.mongo_cursor&#39;&gt; for Collection(Database(MongoClient(host=[&#39;localhost:27017&#39;], document_class=dict, tz_aware=False, connect=True), &#39;test&#39;), &#39;test&#39;)
+M{} None
+documents count: 0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">appl</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">fake_ts</span><span class="p">,</span> <span class="n">ticker</span> <span class="o">=</span> <span class="s1">&#39;appl&#39;</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_rtn&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">)()</span>
+
+<span class="c1">#I am never saving these, In fact, I don&#39;t want to see these in calculation log.</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">ewma</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">appl</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">ewma</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">appl</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># I may want to save these nodes but haven&#39;t made up my mind</span>
+<span class="c1"># I do want to see the calculations in the log though...</span>
+<span class="c1"># I replace db by the primary keys of table (here &#39;key&#39;).</span>
+<span class="c1"># This allows as to see the calculation log as it happens.</span>
+<span class="c1"># data is not saved to db though until I switch to db = db as opposed to db = &#39;key&#39;</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">sub_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;calculate difference of ewma&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">ewmrms</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;root mean square of difference&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;key&#39;</span><span class="p">)</span>
+
+<span class="c1"># The final crossover I definitely want to save to db:</span>
+<span class="n">final_value</span> <span class="o">=</span> <span class="n">db_cell</span><span class="p">(</span><span class="n">div_</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_crossover&#39;</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">)()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:04,243 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_rtn&#39;,))
+2021-03-14 00:08:04,416 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_crossover&#39;,))
+2021-03-14 00:08:04,419 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+2021-03-14 00:08:05,162 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;root mean square of difference&#39;,))
+2021-03-14 00:08:05,164 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">db</span><span class="p">()</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;appl_crossover&#39;, &#39;appl_rtn&#39;]
+</pre></div></div>
+</div>
+<p>So although we had several intermediate steps, we decided to save just the final crossover in the database, If we look at the inputs for the function, you can see that the values are not saved in the database, though the full calculation tree <em>is</em>. Therefore, one can reload the node and then recalculate all the intermediate values on the fly</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">loaded_and_recalculated</span> <span class="o">=</span> <span class="p">(</span><span class="n">db</span><span class="p">()[</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;appl_crossover&#39;</span><span class="p">)]</span> <span class="o">-</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">## but once recalculated, we can assert we got the same result</span>
+<span class="k">assert</span> <span class="n">eq</span><span class="p">(</span><span class="n">loaded_and_recalculated</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">final_value</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-03-14 00:08:09,934 - pyg - INFO - (&#39;localhost&#39;, 27017, &#39;test&#39;, &#39;test&#39;, (&#39;key&#39;,), (&#39;appl_crossover&#39;,))
+2021-03-14 00:08:09,936 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+2021-03-14 00:08:10,091 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;root mean square of difference&#39;,))
+2021-03-14 00:08:10,095 - pyg - INFO - (None, None, None, None, (&#39;key&#39;,), (&#39;calculate difference of ewma&#39;,))
+</pre></div></div>
+</div>
+</section>
+<section id="Behind-the-scene:-cell_func">
+<h2>Behind the scene: cell_func<a class="headerlink" href="#Behind-the-scene:-cell_func" title="Permalink to this headline">¶</a></h2>
+<p>Behind the scene of cell, there is machinary designed to make it work smoothly and transparently in most cases. However, sometimes the user may need to dig deeper. Here is an example for code that fails…</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyg</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">twox</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">twox</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+    <span class="n">c</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>c tries to run the function. The function demands parameter x. When looking at the cells provided, cell ‘a’ does not contain anything like ‘x’ so the function fails.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cell</span><span class="p">(</span><span class="n">twox</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">)()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    cell
+    {&#39;data&#39;: 1, &#39;function&#39;: None}
+function:
+    &lt;function twox at 0x000002A68A888430&gt;
+data:
+    2
+</pre></div></div>
+</div>
+<p>‘data’ key has a preferred status so although ‘x’ is not in the cell, we assume but default that ‘data’ parameter is the one the cell wants to present to the world. This is controlled by cell_output function:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cell_output</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;data&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">myoutput</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;myoutput&#39;</span><span class="p">)</span> <span class="c1">## you can decide your output is different</span>
+<span class="n">cell_output</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">cell_item</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([&#39;myoutput&#39;], 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cell</span><span class="p">(</span><span class="n">twox</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">)()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    cell
+    {&#39;data&#39;: 1, &#39;myoutput&#39;: 3, &#39;function&#39;: None, &#39;output&#39;: &#39;myoutput&#39;}
+function:
+    &lt;function twox at 0x000002A68A888430&gt;
+data:
+    6
+</pre></div></div>
+</div>
+<p>That is good but what happens if the cell has MORE than one output or we want to direct the function to grab another key?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">a</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">## this has failed...</span>
+<span class="n">cell</span><span class="p">(</span><span class="n">cell_func</span><span class="p">(</span><span class="n">twox</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">)()</span> <span class="c1">## when you grab x, use &#39;a&#39; as key</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    cell
+    {&#39;a&#39;: 1, &#39;function&#39;: None}
+function:
+    cell_func
+    relabels:
+        {&#39;x&#39;: &#39;a&#39;}
+    unitemized:
+        []
+    uncalled:
+        []
+    function:
+        &lt;function twox at 0x000002A68A888430&gt;
+data:
+    2
+</pre></div></div>
+</div>
+<p>What if you need the cell itself rather than the items in it?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">add_a_and_b</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">b</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cell</span><span class="p">(</span><span class="n">cell_func</span><span class="p">(</span><span class="n">add_a_and_b</span><span class="p">,</span> <span class="n">unitemized</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">)()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cell
+x:
+    cell
+    {&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;function&#39;: None}
+function:
+    cell_func
+    relabels:
+        {}
+    unitemized:
+        [&#39;x&#39;]
+    uncalled:
+        []
+    function:
+        &lt;function add_a_and_b at 0x000002A6912A3160&gt;
+data:
+    3
+</pre></div></div>
+</div>
+<p>We can see that the cell x itself is presented to the function and x.a + x.b is calculated and data == 3</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../includeme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../base.html">pyg.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mongo.html">pyg.mongo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../timeseries.html">pyg.timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_dict.html">pyg.base.Dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_dictable.html">pyg.base.dictable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_mongo.html">pyg.mongo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyg.base.cell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Cell-101">Cell 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Workflow-without-saving-to-the-database">Workflow without saving to the database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#some-more-functions-to-calculate-the-profits-&amp;-loss-as-well-as-the-signal/noise-ratio">some more functions to calculate the profits &amp; loss as well as the signal/noise ratio</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Workflow-while-saving-to-MongoDB">Workflow while saving to MongoDB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Table-creation">Table creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Any-code-differences?">Any code differences?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Accessing-the-data-in-MongoDB">Accessing the data in MongoDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Calculating-the-forecasts-&amp;-saving-them">Calculating the forecasts &amp; saving them</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Accessing-&amp;-running-the-graph-once-the-graph-has-been-created">Accessing &amp; running the graph once the graph has been created</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Point-in-time,-cache-and-persistency">Point-in-time, cache and persistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Comparison-of-the-two-workflows">Comparison of the two workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#To-save-or-not-to-save?">To save or not to save?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Behind-the-scene:-cell_func">Behind the scene: cell_func</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_perdictable.html">pyg.base.join</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_timeseries.html">pyg.timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_ts_decorators.html">pyg.timeseries decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_ts_ewma_time.html">pyg.timeseries.ewma</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tutorial_mongo.html" title="previous chapter">pyg.mongo</a></li>
+      <li>Next: <a href="tutorial_perdictable.html" title="next chapter">pyg.base.join</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Yoav Git.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/lab/tutorial_cell.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
