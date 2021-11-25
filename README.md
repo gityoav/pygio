@@ -1,3 +1,4 @@
 # pygio
 
-pygio is the doc repo for https://github.com/gityoav/pyg
+Pygio is the documentation repo for github.com/yoavgit/pyg
+
