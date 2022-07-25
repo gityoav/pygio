@@ -1,0 +1,43 @@
+# https://www.altassian.com/git/tutorials/saving-changes/gitignore
+# binaries
+*.pyc
+
+# spyder
+**/.vscode/**
+**/.spyproject/**
+**/.pylint.d/**
+**/.pytestcache/**
+**/htmlcov/**
+**/src/pyg/old/**
+**/docs/_build/doctrees/**
+**/docs/_build/html/_images/**
+**/docs/_build/html/_sources/**
+**/docs/_build/html/_static/**
+**/docs/_build/html/lab/**
+**/docs/lab/.ipynb_checkpoints/**
+
+# PyCharm
+.idea/
+
+# build files
+**/dist/**
+**/build/**
+**/__pycache__/**
+**/*.egg-info/**
+*.bz
+*.tar
+*.zip
+*.coverage
+
+# notepad backup files
+*.bak
+
+# temp files
+\#*
+\.\#*
+\.history
+\.tif
+
+# data files
+*\.csv
+
